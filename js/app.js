@@ -47,7 +47,7 @@ let Nav = React.createClass({
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <Link to="home" className="navbar-brand" >XZQ'Blog</Link>
+                        <Link to="home" className="navbar-brand" >{"XZQ\'Blog"}</Link>
                     </div>
                     <div className="collapse navbar-collapse">
                         <ul className="nav navbar-nav" id="navbar-nav">
