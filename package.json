@@ -1,7 +1,7 @@
 {
-  "name": "react-webpack",
+  "name": "blog-react-webpack",
   "version": "1.0.0",
-  "description": "webpack demo",
+  "description": "blog-react-webpack",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --hot --progress --colors",
@@ -15,7 +15,7 @@
     "react",
     "webpack"
   ],
-  "author": "yixuan",
+  "author": "xzq",
   "devDependencies": {
     "babel-core": "^5.8.25",
     "babel-loader": "^5.3.2",
