@@ -7,6 +7,7 @@ import $ from 'jquery';
 //import Forms from './form';
 //import Timer from './timer';
 
+import config from './app_config';
 import Home from './home';
 import Category from './category';
 import Details from './details';
@@ -14,24 +15,23 @@ import AppF from './App_function';
 
 
 let Nav = React.createClass({
-
     render() {
         //console.log(this.props.nav);
         let nav = this.props.nav;
         //console.log(nav);
         let navCom = nav.map(function(category , i){
             if(0 == category.children.length){
-                return <li>
-                           <Link to="category" key={'Link-' + i}>{category.name}</Link>
+                return <li key={'Link-' + i}>
+                           <Link to="category" params={{categoryId: category.id}}>{category.name}</Link>
                        </li>
             } else {
                 let navLiDrop = category.children.map(function(children , ii){
-                    return <li>
-                               <Link to="category" key={'Link-child' + ii}>{children.name}</Link>
+                    return <li key={'Link-child' + ii}>
+                               <Link to="category" params={{categoryId: children.id}}  >{children.name}</Link>
                            </li>
                 });
                 //console.log(category.children);
-                return <li className="dropdown">
+                return <li className="dropdown" key={'Link-' + i}>
                            <a href="javascript:;" className="dropdown-toggle" data-toggle="dropdown" role="button"   aria-haspopup="true" aria-expanded="false" key="child-00">
                                {category.name}
                                <span className="caret"></span>
@@ -39,7 +39,7 @@ let Nav = React.createClass({
                            <ul className="dropdown-menu">
                                {navLiDrop}
                            </ul>
-                       </li>
+                        </li>
             }
         });
         //console.log(navCom);
@@ -47,12 +47,12 @@ let Nav = React.createClass({
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <Link to="home" className="navbar-brand" >{"XZQ\'Blog"}</Link>
+                        <Link to="home" className="navbar-brand" >{config.title}</Link>
                     </div>
                     <div className="collapse navbar-collapse">
                         <ul className="nav navbar-nav" id="navbar-nav">
                             <li  className="active" >
-                                <Link to="home" key="Link-00">首页 </Link>
+                                <Link to="home" key="Link-home">首页 </Link>
                             </li>
                             {navCom}
                         </ul>
@@ -70,33 +70,41 @@ let Nav = React.createClass({
 });
 
 let App = React.createClass({
+    //初始化状态变量
     getInitialState() {
-        return {data: []};
+        return {category: []};
     },
     loadCommentsFromServer() {
+        var self = this;
         $.ajax({
             url: './mock/nav.json',
             dataType: 'json',
             success: function(r) {
                 if(200 == r.errCode){
-                    var data = [];
                     AppF.nav(r.data, function(nav){
-                        data.push(nav || []);
+                        self.setState({category: nav || []});
                     });
-                    this.setState({data: data[0]});
-                    //console.log(this.state.data);
                 }
-            }.bind(this),
+            },
             error: function(xhr, status, err) {
                 console.error(xhr, status, err.toString());
-            }.bind(this)
+            }
         });
     },
+    //当组件在页面上渲染完成之后调用
     componentDidMount() {
         this.loadCommentsFromServer();
     },
+    //当组件刚刚从页面中移除或销毁时调用
+    componentWillUnmount(){
+
+    },
+    //在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用。
+    componentWillReceiveProps(nextProps) {
+
+    },
     render() {
-        let nav = this.state.data;
+        let nav = this.state.category;
         return (
             <div>
                 <header className="page-head">
@@ -135,6 +143,12 @@ let App = React.createClass({
                         </div>
                     </div>
                 </div>
+                <footer className="page-foot">
+                    <div className="foot-line"></div>
+                    <div className="copyright">
+                        ©2016 <a target="_blank" href="https://github.com/2944927590">alsy</a>
+                    </div>
+                </footer>
             </div>
         );
     }
@@ -143,13 +157,12 @@ let App = React.createClass({
 let routes = (
   <Route name="app" path="/" handler={App}>
     <DefaultRoute name="home" handler={Home}></DefaultRoute>
-    <Route name="category" path="/category" handler={Category}/>
-    <Route name="details" path="/details" handler={Details}/>
+    <Route name="category" path="/category/:categoryId" handler={Category}/>
+    <Route name="details" path="/details/:articleId" handler={Details}/>
   </Route>
-
 );
 
 Router.run(routes, Router.HashLocation, (Handler) => {
-  React.render(<Handler />, document.getElementById("react"));
+  React.render(<Handler />, document.getElementById("app"));
 });
 
