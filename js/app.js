@@ -61,8 +61,8 @@ let Nav = React.createClass({
             <header className="page-head">
                 <nav className="navbar navbar-default">
                     <div className="container-fluid">
-                        <div className="navbar-header">
-                            <Link to="home" className="navbar-brand" >{config.title}</Link>
+                        <div className="navbar-header" data-active="0">
+                            <Link to="home" className="navbar-brand" onClick={self.addActive}>{config.title}</Link>
                         </div>
                         <div className="collapse navbar-collapse">
                             <ul className="nav navbar-nav" id="navbar-nav">
