@@ -72,7 +72,7 @@ let Category = React.createClass({
       return false;
     });
 
-    console.log(category);
+    //console.log(category);
     return (
         <div>
           <div className="headline">{category}<span className="font-green"></span></div>

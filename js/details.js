@@ -9,13 +9,11 @@ import Articles from './article';
 let Article = React.createClass({
     render() {
         let threeArticle = this.props.article;
-        console.log(threeArticle);
-        let cur;
-        let pre;
-        let next;
+        //console.log(threeArticle);
+        let cur, pre, next;
         $.each(threeArticle, function(item, value){
-            console.log(item);
-            console.log(value);
+           // console.log(item);
+           // console.log(value);
             if(item == 'cur'){
                 cur = <div>
                         <div className="col-md-12 article-title">{value.title}</div>
@@ -64,7 +62,7 @@ let Article = React.createClass({
                           </p>
                 }
             } else {
-                console.log(value.id);
+                //console.log(value.id);
                 if(!value.id){
                     next = <p className="article-pre">
                               <i className="glyphicon glyphicon-chevron-down"></i>&nbsp;下一篇：无

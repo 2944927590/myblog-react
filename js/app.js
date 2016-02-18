@@ -9,25 +9,39 @@ import $ from 'jquery';
 
 import config from './app_config';
 import Home from './home';
+import ContainerLeft from './container_left';
 import Category from './category';
 import Details from './details';
+import Footer from './footer';
 import AppF from './App_function';
 
 
 let Nav = React.createClass({
+    addActive(e){
+        let cid = $(e.target).parent().data("active");
+        $('#navbar-nav li').removeClass('active');
+        $('#navbar-nav li[data-active="' + cid +'"]').addClass('active');
+
+        $('#navbar-topic-list li').removeClass('active');
+        let dropLi = $('#navbar-topic-list li[data-active="' + cid +'"]');
+        dropLi.addClass('active');
+        dropLi.parents(".dropdown").addClass("active");
+
+    },
     render() {
         //console.log(this.props.nav);
-        let nav = this.props.nav;
+        let self = this;
+        let nav = self.props.nav;
         //console.log(nav);
         let navCom = nav.map(function(category , i){
             if(0 == category.children.length){
-                return <li key={'Link-' + i}>
+                return <li key={'Link-' + i} onClick={self.addActive} data-active={category.id}>
                            <Link to="category" params={{categoryId: category.id}}>{category.name}</Link>
                        </li>
             } else {
                 let navLiDrop = category.children.map(function(children , ii){
-                    return <li key={'Link-child' + ii}>
-                               <Link to="category" params={{categoryId: children.id}}  >{children.name}</Link>
+                    return <li key={'Link-child' + ii} onClick={self.addActive} data-active={children.id} >
+                               <Link to="category" params={{categoryId: children.id}} >{children.name}</Link>
                            </li>
                 });
                 //console.log(category.children);
@@ -36,39 +50,41 @@ let Nav = React.createClass({
                                {category.name}
                                <span className="caret"></span>
                            </a>
-                           <ul className="dropdown-menu">
+                           <ul className="dropdown-menu" id="navbar-topic-list">
                                {navLiDrop}
                            </ul>
-                        </li>
+                       </li>
             }
         });
         //console.log(navCom);
         return (
-            <nav className="navbar navbar-default">
-                <div className="container-fluid">
-                    <div className="navbar-header">
-                        <Link to="home" className="navbar-brand" >{config.title}</Link>
+            <header className="page-head">
+                <nav className="navbar navbar-default">
+                    <div className="container-fluid">
+                        <div className="navbar-header">
+                            <Link to="home" className="navbar-brand" >{config.title}</Link>
+                        </div>
+                        <div className="collapse navbar-collapse">
+                            <ul className="nav navbar-nav" id="navbar-nav">
+                                <li  className="active" data-active="0">
+                                    <Link to="home" key="Link-home" onClick={self.addActive}>首页 </Link>
+                                </li>
+                                {navCom}
+                            </ul>
+                            <form className="navbar-form navbar-right" role="search">
+                                <div className="form-group">
+                                    <input type="text" className="form-control search-input" placeholder="Search"/>
+                                </div>
+                                <button type="submit" className="btn btn-default search-button">搜索</button>
+                            </form>
+                        </div>
                     </div>
-                    <div className="collapse navbar-collapse">
-                        <ul className="nav navbar-nav" id="navbar-nav">
-                            <li  className="active" >
-                                <Link to="home" key="Link-home">首页 </Link>
-                            </li>
-                            {navCom}
-                        </ul>
-                        <form className="navbar-form navbar-right" role="search">
-                            <div className="form-group">
-                                <input type="text" className="form-control search-input" placeholder="Search"/>
-                            </div>
-                            <button type="submit" className="btn btn-default search-button">搜索</button>
-                        </form>
-                    </div>
-                </div>
-            </nav>
+                </nav>
+            </header>
         );
     }
 });
-
+//app 入口
 let App = React.createClass({
     //初始化状态变量
     getInitialState() {
@@ -107,33 +123,11 @@ let App = React.createClass({
         let nav = this.state.category;
         return (
             <div>
-                <header className="page-head">
-                    <Nav nav={nav} />
-                </header>
+                <Nav nav={nav} />
                 <div className="container">
                     <div className="row">
                         <div className="col-md-3">
-                            <p className="notice"><i className="glyphicon glyphicon-bullhorn"></i>&nbsp;<span>公告</span></p>
-                            <div className="notice-content">本博客文章如无特别注明，均为原创，欢迎转载、传阅，共同交流~</div>
-                            <p className="blogger"><i className="glyphicon glyphicon-user"></i>&nbsp;<span>博主</span></p>
-                            <div className="blogger-info">
-                                <p><span>昵称：<a href="javascript:;" data-go-route="archive/home/init">阿林十一</a></span></p>
-                                <p><span>家乡：<a href="javascript:;">江西省-赣州市</a></span></p>
-                                <p><span>现居住地：<a href="javascript:;">江西省-赣州市</a></span></p>
-                                <p><span>园龄：<a href="javascript:;">8个月</a></span></p>
-                            </div>
-                            <p className="new-blog"><i className="glyphicon glyphicon-list-alt"></i>&nbsp;<span>最新文章</span></p>
-                            <div className="new-blog-details">
-                                <ul>
-                                    <li><a href="javascript:;" title="{{=item.title}}" data-go-route-reload="archive/detail/detail&detailId={{=item.id}}">aaaaa</a></li>
-                                </ul>
-                            </div>
-                            <p className="reading-list"><i className="glyphicon glyphicon-list"></i>&nbsp;<span>阅读排行榜</span></p>
-                            <div className="reading-list-details">
-                                <ul>
-                                    <li><a href="javascript:;" title="{{=item.title}}" data-go-route-reload="archive/detail/detail&detailId={{=item.id}}">bbbbbbb</a></li>
-                                </ul>
-                            </div>
+                            <ContainerLeft/>
                         </div>
                         <div className="col-md-9">
                             <div id="container-right">
@@ -143,12 +137,7 @@ let App = React.createClass({
                         </div>
                     </div>
                 </div>
-                <footer className="page-foot">
-                    <div className="foot-line"></div>
-                    <div className="copyright">
-                        ©2016 <a target="_blank" href="https://github.com/2944927590">alsy</a>
-                    </div>
-                </footer>
+                <Footer/>
             </div>
         );
     }
