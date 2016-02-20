@@ -17,17 +17,6 @@ import AppF from './App_function';
 
 
 let Nav = React.createClass({
-    addActive(e){
-        let cid = $(e.target).parent().data("active");
-        $('#navbar-nav li').removeClass('active');
-        $('#navbar-nav li[data-active="' + cid +'"]').addClass('active');
-
-        $('#navbar-topic-list li').removeClass('active');
-        let dropLi = $('#navbar-topic-list li[data-active="' + cid +'"]');
-        dropLi.addClass('active');
-        dropLi.parents(".dropdown").addClass("active");
-
-    },
     render() {
         //console.log(this.props.nav);
         let self = this;
@@ -35,12 +24,12 @@ let Nav = React.createClass({
         //console.log(nav);
         let navCom = nav.map(function(category , i){
             if(0 == category.children.length){
-                return <li key={'Link-' + i} onClick={self.addActive} data-active={category.id}>
+                return <li key={'Link-' + i} data-active={category.id}>
                            <Link to="category" params={{categoryId: category.id}}>{category.name}</Link>
                        </li>
             } else {
                 let navLiDrop = category.children.map(function(children , ii){
-                    return <li key={'Link-child' + ii} onClick={self.addActive} data-active={children.id} >
+                    return <li key={'Link-child' + ii} data-active={children.id} >
                                <Link to="category" params={{categoryId: children.id}} >{children.name}</Link>
                            </li>
                 });
@@ -62,12 +51,12 @@ let Nav = React.createClass({
                 <nav className="navbar navbar-default">
                     <div className="container-fluid">
                         <div className="navbar-header" data-active="0">
-                            <Link to="home" className="navbar-brand" onClick={self.addActive}>{config.title}</Link>
+                            <Link to="home" className="navbar-brand">{config.title}</Link>
                         </div>
                         <div className="collapse navbar-collapse">
                             <ul className="nav navbar-nav" id="navbar-nav">
                                 <li  className="active" data-active="0">
-                                    <Link to="home" key="Link-home" onClick={self.addActive}>首页 </Link>
+                                    <Link to="home" key="Link-home" >首页 </Link>
                                 </li>
                                 {navCom}
                             </ul>
@@ -107,9 +96,27 @@ let App = React.createClass({
             }
         });
     },
+    addActive(){
+        $("#navbar-nav").on('click', 'li a', function(e, data){
+            let cid;
+            (data >= 0) ?　cid = data : cid = $(this).parent().data("active");
+            if(undefined == cid) return;
+            $('#navbar-nav li').removeClass('active');
+            $('#navbar-nav li[data-active="' + cid +'"]').addClass('active');
+
+            $('#navbar-topic-list li').removeClass('active');
+            let dropLi = $('#navbar-topic-list li[data-active="' + cid +'"]');
+            dropLi.addClass('active');
+            dropLi.parents(".dropdown").addClass("active");
+        });
+        $(".navbar-header").on("click", function(){
+            $("#navbar-nav li a").trigger('click', $(this).data('active'));
+        });
+    },
     //当组件在页面上渲染完成之后调用
     componentDidMount() {
         this.loadCommentsFromServer();
+        this.addActive();
     },
     //当组件刚刚从页面中移除或销毁时调用
     componentWillUnmount(){

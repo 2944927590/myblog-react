@@ -51,7 +51,7 @@ let Article = React.createClass({
                             <i className="glyphicon glyphicon-chevron-up"></i>&nbsp;上一篇：无
                           </p>
                 } else {
-                    pre = <p className="article-pre">
+                    pre = <p className="article-pre" data-category-id={value.category_id}>
                             <Link
                                 to="details"
                                 params={{articleId: value.id}}
@@ -68,7 +68,7 @@ let Article = React.createClass({
                               <i className="glyphicon glyphicon-chevron-down"></i>&nbsp;下一篇：无
                            </p>
                 } else {
-                    next = <p className="article-pre">
+                    next = <p className="article-pre" data-category-id={value.category_id}>
                                 <Link
                                     to="details"
                                     params={{articleId: value.id}}
@@ -83,7 +83,7 @@ let Article = React.createClass({
         return (
             <div className="row">
                 {cur}
-                <div className="col-md-12">
+                <div className="col-md-12" id="pre-next">
                     {pre}
                     {next}
                 </div>
@@ -128,9 +128,16 @@ let Details = React.createClass({
             }
         });
     },
+    changeNavClass() {
+        $("#pre-next").on('click', 'p', function(){
+            console.log($(this).data('category-id'));
+            $("#navbar-nav li a").trigger('click', $(this).data('category-id'));
+        });
+    },
     //当组件在页面上渲染完成之后调用
     componentDidMount() {
         this.loadCommentsFromServer();
+        this.changeNavClass();
     },
     //当组件刚刚从页面中移除或销毁时调用
     //componentWillUnmount(){
