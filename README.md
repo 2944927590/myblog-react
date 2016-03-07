@@ -11,6 +11,6 @@ npm install
 # serve with hot reload at localhost:8080/webpack-dev-server/
 npm run start
 
-# build for production with minification
+# build for production
 npm run build
 
