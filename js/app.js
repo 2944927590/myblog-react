@@ -15,21 +15,27 @@ import Details from './details';
 import Footer from './footer';
 import AppF from './App_function';
 
-
 let Nav = React.createClass({
+    addActive(e){
+        var self = $(e.target),
+            cid = self.parent().data('active');
+        $('#navbar-nav li').removeClass('active');
+        $('#navbar-nav li[data-active="' + cid +'"]').addClass('active');
+        self.parents('.dropdown').addClass("active");
+    },
     render() {
         //console.log(this.props.nav);
         let self = this;
         let nav = self.props.nav;
         //console.log(nav);
-        let navCom = nav.map(function(category , i){
+        let navCom = nav.map( (category , i) => {
             if(0 == category.children.length){
-                return <li key={'Link-' + i} data-active={category.id}>
+                return <li key={'Link-' + i} data-active={category.id} onClick={this.addActive}>
                            <Link to="category" params={{categoryId: category.id}}>{category.name}</Link>
                        </li>
             } else {
-                let navLiDrop = category.children.map(function(children , ii){
-                    return <li key={'Link-child' + ii} data-active={children.id} >
+                let navLiDrop = category.children.map( (children , ii) => {
+                    return <li key={'Link-child' + ii} data-active={children.id} onClick={this.addActive}>
                                <Link to="category" params={{categoryId: children.id}} >{children.name}</Link>
                            </li>
                 });
@@ -96,27 +102,9 @@ let App = React.createClass({
             }
         });
     },
-    addActive(){
-        $("#navbar-nav").on('click', 'li a', function(e, data){
-            let cid;
-            (data >= 0) ?　cid = data : cid = $(this).parent().data("active");
-            if(undefined == cid) return;
-            $('#navbar-nav li').removeClass('active');
-            $('#navbar-nav li[data-active="' + cid +'"]').addClass('active');
-
-            $('#navbar-topic-list li').removeClass('active');
-            let dropLi = $('#navbar-topic-list li[data-active="' + cid +'"]');
-            dropLi.addClass('active');
-            dropLi.parents(".dropdown").addClass("active");
-        });
-        $(".navbar-header").on("click", function(){
-            $("#navbar-nav li a").trigger('click', $(this).data('active'));
-        });
-    },
     //当组件在页面上渲染完成之后调用
     componentDidMount() {
         this.loadCommentsFromServer();
-        this.addActive();
     },
     //当组件刚刚从页面中移除或销毁时调用
     componentWillUnmount(){
