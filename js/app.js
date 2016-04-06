@@ -3,10 +3,6 @@ import Router from 'react-router';
 import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
 import $ from 'jquery';
 
-
-//import Forms from './form';
-//import Timer from './timer';
-
 import config from './app_config';
 import Home from './home';
 import ContainerLeft from './container_left';
@@ -19,6 +15,8 @@ let Nav = React.createClass({
     addActive(e){
         var self = $(e.target),
             cid = self.parent().data('active');
+        //console.log(self);
+        //console.log(cid);
         $('#navbar-nav li').removeClass('active');
         $('#navbar-nav li[data-active="' + cid +'"]').addClass('active');
         self.parents('.dropdown').addClass("active");
@@ -31,15 +29,23 @@ let Nav = React.createClass({
         let navCom = nav.map( (category , i) => {
             if(0 == category.children.length){
                 return <li key={'Link-' + i} data-active={category.id} onClick={this.addActive}>
-                           <Link to="category" params={{categoryId: category.id}}>{category.name}</Link>
+                           <Link
+                               to="category"
+                               params={{categoryId: category.id}}>
+                               {category.name}
+                           </Link>
                        </li>
             } else {
                 let navLiDrop = category.children.map( (children , ii) => {
                     return <li key={'Link-child' + ii} data-active={children.id} onClick={this.addActive}>
-                               <Link to="category" params={{categoryId: children.id}} >{children.name}</Link>
+                               <Link
+                                   to="category"
+                                   params={{categoryId: children.id}} >
+                                   {children.name}
+                               </Link>
                            </li>
                 });
-                //console.log(category.children);
+
                 return <li className="dropdown" key={'Link-' + i}>
                            <a href="javascript:;" className="dropdown-toggle" data-toggle="dropdown" role="button"   aria-haspopup="true" aria-expanded="false" key="child-00">
                                {category.name}
@@ -61,7 +67,7 @@ let Nav = React.createClass({
                         </div>
                         <div className="collapse navbar-collapse">
                             <ul className="nav navbar-nav" id="navbar-nav">
-                                <li  className="active" data-active="0">
+                                <li  className="active" data-active="0" onClick={this.addActive}>
                                     <Link to="home" key="Link-home" >首页 </Link>
                                 </li>
                                 {navCom}

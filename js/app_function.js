@@ -1,12 +1,9 @@
 define(function(require, exports, module){
 
-    exports.init = function(){
-
-    };
     exports.nav = function(topicList, cb){
-        var arr = new Array();
+        var arr = [];
         topicList.forEach(function(v){
-            var children = new Array();
+            var children = [];
             if(0 == v['pid']){
                 topicList.forEach(function(vv){
                     if(vv['pid'] == v['id']){
@@ -36,17 +33,15 @@ define(function(require, exports, module){
         }
     }
     exports.articleCut = function(details, num, cb){
-        //console.log(details);
         if(0 == details.length || !num) {
             cb([]);
         } else {
-            var arr = new Array();
+            var arr = [];
             for(var i = 0, length = details.length; i < num && i < length; i++){
                 arr.push(details[i]);
             }
             cb(arr || []);
         }
-
     }
     exports.timeToStr = function(details, cb){
         if(0 == details.length){
@@ -64,9 +59,7 @@ define(function(require, exports, module){
             cb([]);
         } else {
             details.forEach(function(item){
-                //console.log(item[field]);
                 if(item[field].length > num){
-                    //console.log(item[field].length);
                     item[field] = item[field].substr(0, num) + "...";
                 }
             });
@@ -74,35 +67,18 @@ define(function(require, exports, module){
         }
     }
     exports.getDetailsByField = function(details, field, value, cb){
-        //console.log(field);
-        //console.log(value);
-        //console.log(field.length);
-        //console.log(value.length);
         if(0 == details.length){
             cb([]);
         } else if(field.length || value.length){
-            var arr = new Array();
+            var arr = [];
             details.forEach(function(item){
-                //console.log(item[field]);
-                //console.log('-----------'+value);
                 if(item[field] == value){
-                    //console.log(item);
-                    //console.log(item[field]);
                     arr.push(item);
                 }
             });
             cb(arr);
         } else {
             cb(details);
-        }
-    }
-    exports.addClassActive = function( category_id ){
-        $('#navbar-nav li').removeClass('active');
-        var current_li = $('#navbar-nav li[data-nav="category' + category_id +'"]');
-        current_li.addClass('active');
-        var parent = current_li.parents("li.dropdown");
-        if(parent.length){
-            parent.addClass('active');
         }
     }
 });
