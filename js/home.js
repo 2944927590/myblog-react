@@ -6,7 +6,6 @@ import config from './app_config';
 import Articles from './article';
 
 let Home = React.createClass({
-
   getInitialState() {
     return {
       details: []
@@ -19,11 +18,11 @@ let Home = React.createClass({
       dataType: 'json',
       success: function(r) {
         if(200 == r.errCode){
-          AppF.articleCut(r.data, config.indexShowNum, function(detailsCuted){
+          AppF.articleCut(r.data, config.indexShowNum, (detailsCuted) => {
             //console.log(detailsCuted);
-            AppF.timeToStr(detailsCuted, function(detailsStrTime){
-              AppF.isStrCut(detailsStrTime, 'title', config.indexTitleLength, function(details){
-                AppF.isStrCut(details, 'content', config.indexContentLength, function(details){
+            AppF.timeToStr(detailsCuted, (detailsStrTime) => {
+              AppF.isStrCut(detailsStrTime, 'title', config.indexTitleLength, (details) => {
+                AppF.isStrCut(details, 'content', config.indexContentLength, (details) => {
                   self.setState({details: details || []});
                 });
               });

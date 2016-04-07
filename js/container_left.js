@@ -1,7 +1,6 @@
 import React from 'react';
 
 let ContainerLeft = React.createClass({
-
     render() {
         return(
            <div>

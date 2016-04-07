@@ -7,15 +7,23 @@ import config from './app_config';
 import Articles from './article';
 
 let Article = React.createClass({
+    changeNavClass(e){
+        //console.log(e.target);
+        var self = $(e.target).parents("p.article-pre");
+        //console.log(self);
+        var cid = self.data("category-id");
+
+        $('#navbar-nav li').removeClass('active');
+        $('#navbar-nav li[data-active="' + cid +'"]').addClass('active');
+
+    },
     render() {
         let threeArticle = this.props.article;
-        //console.log(threeArticle);
         let cur, pre, next;
-        $.each(threeArticle, function(item, value){
-           // console.log(item);
-           // console.log(value);
+        $.each(threeArticle, (item, value) => {
             if(item == 'cur'){
-                cur = <div>
+                cur = (
+                    <div>
                         <div className="col-md-12 article-title">{value.title}</div>
                         <div className="col-md-12 article-icon">
                             <ul>
@@ -43,40 +51,49 @@ let Article = React.createClass({
                                 </li>
                             </ul>
                         </div>
-                       </div>
+                    </div>
+                );
             } else if(item == 'pre'){
-                //console.log(value.length);
                 if(!value.id){
-                    pre = <p className="article-pre">
+                    pre = (
+                        <p className="article-pre">
                             <i className="glyphicon glyphicon-chevron-up"></i>&nbsp;上一篇：无
-                          </p>
+                        </p>
+                    );
                 } else {
-                    pre = <p className="article-pre" data-category-id={value.category_id}>
+                    pre = (
+                        <p className="article-pre" data-category-id={value.category_id}>
                             <Link
                                 to="details"
                                 params={{articleId: value.id}}
+                                onClick={this.changeNavClass}
                                 title={value.title}>
                                 <i className="glyphicon glyphicon-chevron-up"></i>
                                 &nbsp;上一篇：{value.title}
                             </Link>
-                          </p>
+                        </p>
+                    );
                 }
             } else {
-                //console.log(value.id);
                 if(!value.id){
-                    next = <p className="article-pre">
-                              <i className="glyphicon glyphicon-chevron-down"></i>&nbsp;下一篇：无
-                           </p>
+                    next = (
+                        <p className="article-pre">
+                            <i className="glyphicon glyphicon-chevron-down"></i>&nbsp;下一篇：无
+                        </p>
+                    );
                 } else {
-                    next = <p className="article-pre" data-category-id={value.category_id}>
-                                <Link
-                                    to="details"
-                                    params={{articleId: value.id}}
-                                    title={value.title}>
-                                    <i className="glyphicon glyphicon-chevron-down"></i>
-                                    &nbsp;下一篇：{value.title}
-                                </Link>
-                           </p>
+                    next = (
+                        <p className="article-pre" data-category-id={value.category_id}>
+                            <Link
+                                to="details"
+                                params={{articleId: value.id}}
+                                onClick={this.changeNavClass}
+                                title={value.title}>
+                                <i className="glyphicon glyphicon-chevron-down"></i>
+                                &nbsp;下一篇：{value.title}
+                            </Link>
+                        </p>
+                    );
                 }
             }
         });
@@ -108,11 +125,11 @@ let Details = React.createClass({
             success: function(r) {
                 if(200 == r.errCode){
                     var details = r.data;
-                    AppF.articleSort(details, 'id', 'ase', function(details){
-                        AppF.timeToStr(details, function(details){
+                    AppF.articleSort(details, 'id', 'ase', (details) => {
+                        AppF.timeToStr(details, (details) => {
                             var details = details;
-                            self.getArticleKey(details, self.state.articleId, function(key){
-                                self.getThreeArticle(details, key, function(threeArticle){
+                            self.getArticleKey(details, self.state.articleId, (key) => {
+                                self.getThreeArticle(details, key, (threeArticle) => {
                                     //console.log(threeArticle);
                                     self.setState({
                                         threeArticle: threeArticle[0]
@@ -128,21 +145,10 @@ let Details = React.createClass({
             }
         });
     },
-    changeNavClass() {
-        $("#pre-next").on('click', 'p', function(){
-            console.log($(this).data('category-id'));
-            $("#navbar-nav li a").trigger('click', $(this).data('category-id'));
-        });
-    },
     //当组件在页面上渲染完成之后调用
     componentDidMount() {
         this.loadCommentsFromServer();
-        this.changeNavClass();
     },
-    //当组件刚刚从页面中移除或销毁时调用
-    //componentWillUnmount(){
-    //
-    //},
     //在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用。
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -150,15 +156,9 @@ let Details = React.createClass({
         });
         this.loadCommentsFromServer();
     },
-    //在接收到新的 props 或者 state，将要渲染之前调用。
-    //shouldComponentUpdate(nextProps, nextState) {
-    //  //console.log( nextProps);
-    //  return this.state.categoryId == nextProps.params.categoryId;
-    //},
     getThreeArticle(details, key, cb) {
-        var arr = new Array();
+        var arr = [];
         var length = details.length;
-        //  console.log(key);
         if( length == 0 || key === ''){
             cb([]);
         } else if(length == 1){

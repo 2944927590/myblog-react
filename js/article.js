@@ -4,9 +4,9 @@ import { Link } from 'react-router';
 let Article = React.createClass({
     render() {
         let details = this.props.details;
-        //console.log(details);
-        details = details.map(function(item, index){
-            return <article key={"article-" + index}>
+        details = details.map( (item, index) => {
+            return (
+                <article key={"article-" + index}>
                     <div className="title" title={item.title}>
                         <Link to="details" params={{articleId: item.id}} title={item.title}>
                             <i className="glyphicon glyphicon-triangle-right icon-title"></i>
@@ -32,9 +32,9 @@ let Article = React.createClass({
                             <Link to="details" params={{articleId: item.id}}  className="btn btn-success btn-sm pull-right btn-read-all" title={item.title}>阅读全文>></Link>
                         </div>
                     </div>
-                  </article>
+                </article>
+            );
         });
-
         return(
             <div>
                 <div className="article-list">

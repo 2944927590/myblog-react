@@ -15,49 +15,49 @@ let Nav = React.createClass({
     addActive(e){
         var self = $(e.target),
             cid = self.parent().data('active');
-        //console.log(self);
-        //console.log(cid);
         $('#navbar-nav li').removeClass('active');
         $('#navbar-nav li[data-active="' + cid +'"]').addClass('active');
         self.parents('.dropdown').addClass("active");
     },
     render() {
-        //console.log(this.props.nav);
         let self = this;
         let nav = self.props.nav;
-        //console.log(nav);
         let navCom = nav.map( (category , i) => {
             if(0 == category.children.length){
-                return <li key={'Link-' + i} data-active={category.id} onClick={this.addActive}>
-                           <Link
-                               to="category"
-                               params={{categoryId: category.id}}>
-                               {category.name}
-                           </Link>
-                       </li>
+                return (
+                    <li key={'Link-' + i} data-active={category.id} onClick={this.addActive}>
+                       <Link
+                           to="category"
+                           params={{categoryId: category.id}}>
+                           {category.name}
+                       </Link>
+                    </li>
+                )
             } else {
                 let navLiDrop = category.children.map( (children , ii) => {
-                    return <li key={'Link-child' + ii} data-active={children.id} onClick={this.addActive}>
-                               <Link
-                                   to="category"
-                                   params={{categoryId: children.id}} >
-                                   {children.name}
-                               </Link>
-                           </li>
+                    return (
+                        <li key={'Link-child' + ii} data-active={children.id} onClick={this.addActive}>
+                           <Link
+                               to="category"
+                               params={{categoryId: children.id}} >
+                               {children.name}
+                           </Link>
+                        </li>
+                    );
                 });
-
-                return <li className="dropdown" key={'Link-' + i}>
-                           <a href="javascript:;" className="dropdown-toggle" data-toggle="dropdown" role="button"   aria-haspopup="true" aria-expanded="false" key="child-00">
-                               {category.name}
-                               <span className="caret"></span>
-                           </a>
-                           <ul className="dropdown-menu" id="navbar-topic-list">
-                               {navLiDrop}
-                           </ul>
-                       </li>
+                return (
+                   <li className="dropdown" key={'Link-' + i}>
+                       <a href="javascript:;" className="dropdown-toggle" data-toggle="dropdown" role="button"   aria-haspopup="true" aria-expanded="false" key="child-00">
+                           {category.name}
+                           <span className="caret"></span>
+                       </a>
+                       <ul className="dropdown-menu" id="navbar-topic-list">
+                           {navLiDrop}
+                       </ul>
+                   </li>
+                );
             }
         });
-        //console.log(navCom);
         return (
             <header className="page-head">
                 <nav className="navbar navbar-default">
