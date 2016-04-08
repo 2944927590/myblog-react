@@ -3,13 +3,13 @@ import Router from 'react-router';
 import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
 import $ from 'jquery';
 
-import config from './app_config';
+import config from './../_config/app_config';
 import Home from './home';
 import ContainerLeft from './container_left';
 import Category from './category';
 import Details from './details';
 import Footer from './footer';
-import AppF from './App_function';
+import AppF from './../_base/app_function';
 
 let Nav = React.createClass({
     addActive(e){
@@ -32,7 +32,7 @@ let Nav = React.createClass({
                            {category.name}
                        </Link>
                     </li>
-                )
+                );
             } else {
                 let navLiDrop = category.children.map( (children , ii) => {
                     return (
@@ -87,7 +87,6 @@ let Nav = React.createClass({
 });
 //app 入口
 let App = React.createClass({
-    //初始化状态变量
     getInitialState() {
         return {category: []};
     },
@@ -108,17 +107,8 @@ let App = React.createClass({
             }
         });
     },
-    //当组件在页面上渲染完成之后调用
     componentDidMount() {
         this.loadCommentsFromServer();
-    },
-    //当组件刚刚从页面中移除或销毁时调用
-    componentWillUnmount(){
-
-    },
-    //在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用。
-    componentWillReceiveProps(nextProps) {
-
     },
     render() {
         let nav = this.state.category;

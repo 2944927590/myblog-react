@@ -1,8 +1,8 @@
 import React from 'react';
 import $ from 'jquery';
 
-import AppF from './App_function';
-import config from './app_config';
+import AppF from './../_base/app_function';
+import config from './../_config/app_config';
 import Articles from './article';
 
 let Home = React.createClass({

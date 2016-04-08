@@ -1,5 +1,5 @@
 define(function(require, exports, module){
-
+    var time = require("./time");
     exports.nav = function(topicList, cb){
         var arr = [];
         topicList.forEach(function(v){
@@ -47,7 +47,6 @@ define(function(require, exports, module){
         if(0 == details.length){
             cb([]);
         } else {
-            var time = require("./time");
             details.forEach(function(item){
                 item.create_time = time.format('yyyy年mm月dd日', parseInt(item.create_time * 1000));
             });

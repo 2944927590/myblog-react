@@ -2,15 +2,13 @@ import React from 'react';
 import $ from 'jquery';
 import { Link } from 'react-router';
 
-import AppF from './App_function';
-import config from './app_config';
+import AppF from './../_base/app_function';
+import config from './../_config/app_config';
 import Articles from './article';
 
 let Article = React.createClass({
     changeNavClass(e){
-        //console.log(e.target);
         var self = $(e.target).parents("p.article-pre");
-        //console.log(self);
         var cid = self.data("category-id");
 
         $('#navbar-nav li').removeClass('active');
@@ -110,7 +108,6 @@ let Article = React.createClass({
 });
 
 let Details = React.createClass({
-    //初始化状态变量
     getInitialState() {
         return {
             articleId: this.props.params.articleId,

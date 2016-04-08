@@ -155,86 +155,103 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	//import Forms from './form';
-	//import Timer from './timer';
+	var _configApp_config = __webpack_require__(199);
 
-	var _home = __webpack_require__(256);
+	var _configApp_config2 = _interopRequireDefault(_configApp_config);
+
+	var _home = __webpack_require__(200);
 
 	var _home2 = _interopRequireDefault(_home);
 
-	var _category = __webpack_require__(257);
+	var _container_left = __webpack_require__(204);
+
+	var _container_left2 = _interopRequireDefault(_container_left);
+
+	var _category = __webpack_require__(205);
 
 	var _category2 = _interopRequireDefault(_category);
 
-	var _details = __webpack_require__(258);
+	var _details = __webpack_require__(206);
 
 	var _details2 = _interopRequireDefault(_details);
 
-	var _App_function = __webpack_require__(254);
+	var _footer = __webpack_require__(207);
 
-	var _App_function2 = _interopRequireDefault(_App_function);
+	var _footer2 = _interopRequireDefault(_footer);
+
+	var _baseApp_function = __webpack_require__(201);
+
+	var _baseApp_function2 = _interopRequireDefault(_baseApp_function);
 
 	var Nav = _react2['default'].createClass({
 	    displayName: 'Nav',
 
+	    addActive: function addActive(e) {
+	        var self = (0, _jquery2['default'])(e.target),
+	            cid = self.parent().data('active');
+	        (0, _jquery2['default'])('#navbar-nav li').removeClass('active');
+	        (0, _jquery2['default'])('#navbar-nav li[data-active="' + cid + '"]').addClass('active');
+	        self.parents('.dropdown').addClass("active");
+	    },
 	    render: function render() {
-	        //console.log(this.props.nav);
-	        var nav = this.props.nav;
-	        //console.log(nav);
+	        var _this = this;
+
+	        var self = this;
+	        var nav = self.props.nav;
 	        var navCom = nav.map(function (category, i) {
 	            if (0 == category.children.length) {
-	                return _react2['default'].createElement('li', null, _react2['default'].createElement(_reactRouter.Link, { to: 'category', key: 'Link-' + i }, category.name));
+	                return _react2['default'].createElement('li', { key: 'Link-' + i, 'data-active': category.id, onClick: _this.addActive }, _react2['default'].createElement(_reactRouter.Link, {
+	                    to: 'category',
+	                    params: { categoryId: category.id } }, category.name));
 	            } else {
 	                var navLiDrop = category.children.map(function (children, ii) {
-	                    return _react2['default'].createElement('li', null, _react2['default'].createElement(_reactRouter.Link, { to: 'category', key: 'Link-child' + ii }, children.name));
+	                    return _react2['default'].createElement('li', { key: 'Link-child' + ii, 'data-active': children.id, onClick: _this.addActive }, _react2['default'].createElement(_reactRouter.Link, {
+	                        to: 'category',
+	                        params: { categoryId: children.id } }, children.name));
 	                });
-	                //console.log(category.children);
-	                return _react2['default'].createElement('li', { className: 'dropdown' }, _react2['default'].createElement('a', { href: 'javascript:;', className: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button', 'aria-haspopup': 'true', 'aria-expanded': 'false', key: 'child-00' }, category.name, _react2['default'].createElement('span', { className: 'caret' })), _react2['default'].createElement('ul', { className: 'dropdown-menu' }, navLiDrop));
+	                return _react2['default'].createElement('li', { className: 'dropdown', key: 'Link-' + i }, _react2['default'].createElement('a', { href: 'javascript:;', className: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button', 'aria-haspopup': 'true', 'aria-expanded': 'false', key: 'child-00' }, category.name, _react2['default'].createElement('span', { className: 'caret' })), _react2['default'].createElement('ul', { className: 'dropdown-menu', id: 'navbar-topic-list' }, navLiDrop));
 	            }
 	        });
-	        //console.log(navCom);
-	        return _react2['default'].createElement('nav', { className: 'navbar navbar-default' }, _react2['default'].createElement('div', { className: 'container-fluid' }, _react2['default'].createElement('div', { className: 'navbar-header' }, _react2['default'].createElement(_reactRouter.Link, { to: 'home', className: 'navbar-brand' }, "XZQ\'Blog")), _react2['default'].createElement('div', { className: 'collapse navbar-collapse' }, _react2['default'].createElement('ul', { className: 'nav navbar-nav', id: 'navbar-nav' }, _react2['default'].createElement('li', { className: 'active' }, _react2['default'].createElement(_reactRouter.Link, { to: 'home', key: 'Link-00' }, '首页 ')), navCom), _react2['default'].createElement('form', { className: 'navbar-form navbar-right', role: 'search' }, _react2['default'].createElement('div', { className: 'form-group' }, _react2['default'].createElement('input', { type: 'text', className: 'form-control search-input', placeholder: 'Search' })), _react2['default'].createElement('button', { type: 'submit', className: 'btn btn-default search-button' }, '搜索')))));
+	        return _react2['default'].createElement('header', { className: 'page-head' }, _react2['default'].createElement('nav', { className: 'navbar navbar-default' }, _react2['default'].createElement('div', { className: 'container-fluid' }, _react2['default'].createElement('div', { className: 'navbar-header', 'data-active': '0' }, _react2['default'].createElement(_reactRouter.Link, { to: 'home', className: 'navbar-brand' }, _configApp_config2['default'].title)), _react2['default'].createElement('div', { className: 'collapse navbar-collapse' }, _react2['default'].createElement('ul', { className: 'nav navbar-nav', id: 'navbar-nav' }, _react2['default'].createElement('li', { className: 'active', 'data-active': '0', onClick: this.addActive }, _react2['default'].createElement(_reactRouter.Link, { to: 'home', key: 'Link-home' }, '首页 ')), navCom), _react2['default'].createElement('form', { className: 'navbar-form navbar-right', role: 'search' }, _react2['default'].createElement('div', { className: 'form-group' }, _react2['default'].createElement('input', { type: 'text', className: 'form-control search-input', placeholder: 'Search' })), _react2['default'].createElement('button', { type: 'submit', className: 'btn btn-default search-button' }, '搜索'))))));
 	    }
 	});
-
+	//app 入口
 	var App = _react2['default'].createClass({
 	    displayName: 'App',
 
 	    getInitialState: function getInitialState() {
-	        return { data: [] };
+	        return { category: [] };
 	    },
 	    loadCommentsFromServer: function loadCommentsFromServer() {
+	        var self = this;
 	        _jquery2['default'].ajax({
 	            url: './mock/nav.json',
 	            dataType: 'json',
-	            success: (function (r) {
+	            success: function success(r) {
 	                if (200 == r.errCode) {
-	                    var data = [];
-	                    _App_function2['default'].nav(r.data, function (nav) {
-	                        data.push(nav || []);
+	                    _baseApp_function2['default'].nav(r.data, function (nav) {
+	                        self.setState({ category: nav || [] });
 	                    });
-	                    this.setState({ data: data[0] });
-	                    //console.log(this.state.data);
 	                }
-	            }).bind(this),
-	            error: (function (xhr, status, err) {
+	            },
+	            error: function error(xhr, status, err) {
 	                console.error(xhr, status, err.toString());
-	            }).bind(this)
+	            }
 	        });
 	    },
 	    componentDidMount: function componentDidMount() {
 	        this.loadCommentsFromServer();
 	    },
 	    render: function render() {
-	        var nav = this.state.data;
-	        return _react2['default'].createElement('div', null, _react2['default'].createElement('header', { className: 'page-head' }, _react2['default'].createElement(Nav, { nav: nav })), _react2['default'].createElement('div', { className: 'container' }, _react2['default'].createElement('div', { className: 'row' }, _react2['default'].createElement('div', { className: 'col-md-3' }, _react2['default'].createElement('p', { className: 'notice' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-bullhorn' }), ' ', _react2['default'].createElement('span', null, '公告')), _react2['default'].createElement('div', { className: 'notice-content' }, '本博客文章如无特别注明，均为原创，欢迎转载、传阅，共同交流~'), _react2['default'].createElement('p', { className: 'blogger' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-user' }), ' ', _react2['default'].createElement('span', null, '博主')), _react2['default'].createElement('div', { className: 'blogger-info' }, _react2['default'].createElement('p', null, _react2['default'].createElement('span', null, '昵称：', _react2['default'].createElement('a', { href: 'javascript:;', 'data-go-route': 'archive/home/init' }, '阿林十一'))), _react2['default'].createElement('p', null, _react2['default'].createElement('span', null, '家乡：', _react2['default'].createElement('a', { href: 'javascript:;' }, '江西省-赣州市'))), _react2['default'].createElement('p', null, _react2['default'].createElement('span', null, '现居住地：', _react2['default'].createElement('a', { href: 'javascript:;' }, '江西省-赣州市'))), _react2['default'].createElement('p', null, _react2['default'].createElement('span', null, '园龄：', _react2['default'].createElement('a', { href: 'javascript:;' }, '8个月')))), _react2['default'].createElement('p', { className: 'new-blog' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-list-alt' }), ' ', _react2['default'].createElement('span', null, '最新文章')), _react2['default'].createElement('div', { className: 'new-blog-details' }, _react2['default'].createElement('ul', null, _react2['default'].createElement('li', null, _react2['default'].createElement('a', { href: 'javascript:;', title: '{{=item.title}}', 'data-go-route-reload': 'archive/detail/detail&detailId={{=item.id}}' }, 'aaaaa')))), _react2['default'].createElement('p', { className: 'reading-list' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-list' }), ' ', _react2['default'].createElement('span', null, '阅读排行榜')), _react2['default'].createElement('div', { className: 'reading-list-details' }, _react2['default'].createElement('ul', null, _react2['default'].createElement('li', null, _react2['default'].createElement('a', { href: 'javascript:;', title: '{{=item.title}}', 'data-go-route-reload': 'archive/detail/detail&detailId={{=item.id}}' }, 'bbbbbbb'))))), _react2['default'].createElement('div', { className: 'col-md-9' }, _react2['default'].createElement('div', { id: 'container-right' }, _react2['default'].createElement(_reactRouter.RouteHandler, null))))));
+	        var nav = this.state.category;
+	        return _react2['default'].createElement('div', null, _react2['default'].createElement(Nav, { nav: nav }), _react2['default'].createElement('div', { className: 'container' }, _react2['default'].createElement('div', { className: 'row' }, _react2['default'].createElement('div', { className: 'col-md-3' }, _react2['default'].createElement(_container_left2['default'], null)), _react2['default'].createElement('div', { className: 'col-md-9' }, _react2['default'].createElement('div', { id: 'container-right' }, _react2['default'].createElement(_reactRouter.RouteHandler, null))))), _react2['default'].createElement(_footer2['default'], null));
 	    }
 	});
 
-	var routes = _react2['default'].createElement(_reactRouter.Route, { name: 'app', path: '/', handler: App }, _react2['default'].createElement(_reactRouter.DefaultRoute, { name: 'home', handler: _home2['default'] }), _react2['default'].createElement(_reactRouter.Route, { name: 'category', path: '/category', handler: _category2['default'] }), _react2['default'].createElement(_reactRouter.Route, { name: 'details', path: '/details', handler: _details2['default'] }));
+	var routes = _react2['default'].createElement(_reactRouter.Route, { name: 'app', path: '/', handler: App }, _react2['default'].createElement(_reactRouter.DefaultRoute, { name: 'home', handler: _home2['default'] }), _react2['default'].createElement(_reactRouter.Route, { name: 'category', path: '/category/:categoryId', handler: _category2['default'] }), _react2['default'].createElement(_reactRouter.Route, { name: 'details', path: '/details/:articleId', handler: _details2['default'] }));
 
 	_reactRouter2['default'].run(routes, _reactRouter2['default'].HashLocation, function (Handler) {
-	    _react2['default'].render(_react2['default'].createElement(Handler, null), document.getElementById("react"));
+	    _react2['default'].render(_react2['default'].createElement(Handler, null), document.getElementById("app"));
 	});
 	/* <RouteHandler/> */
 
@@ -33565,62 +33582,7 @@
 
 
 /***/ },
-/* 199 */,
-/* 200 */,
-/* 201 */,
-/* 202 */,
-/* 203 */,
-/* 204 */,
-/* 205 */,
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */,
-/* 222 */,
-/* 223 */,
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -33629,11 +33591,117 @@
 
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 
-	    exports.init = function () {};
+	    module.exports = {
+	        title: 'xzq\'s Blog',
+	        indexShowNum: '6',
+	        indexTitleLength: '30',
+	        indexContentLength: '150',
+	        emptyArticleMsg: "没有该话题下的文章",
+	        newArticleNum: '5',
+	        hitArticleNum: '5',
+	        newArticleTitleNum: '16',
+	        hitArticleTitleNum: '16'
+	    };
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "app_config.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _jquery = __webpack_require__(198);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _baseApp_function = __webpack_require__(201);
+
+	var _baseApp_function2 = _interopRequireDefault(_baseApp_function);
+
+	var _configApp_config = __webpack_require__(199);
+
+	var _configApp_config2 = _interopRequireDefault(_configApp_config);
+
+	var _article = __webpack_require__(203);
+
+	var _article2 = _interopRequireDefault(_article);
+
+	var Home = _react2['default'].createClass({
+	  displayName: 'Home',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      details: []
+	    };
+	  },
+	  loadCommentsFromServer: function loadCommentsFromServer() {
+	    var self = this;
+	    _jquery2['default'].ajax({
+	      url: './mock/detail.json',
+	      dataType: 'json',
+	      success: function success(r) {
+	        if (200 == r.errCode) {
+	          _baseApp_function2['default'].articleCut(r.data, _configApp_config2['default'].indexShowNum, function (detailsCuted) {
+	            //console.log(detailsCuted);
+	            _baseApp_function2['default'].timeToStr(detailsCuted, function (detailsStrTime) {
+	              _baseApp_function2['default'].isStrCut(detailsStrTime, 'title', _configApp_config2['default'].indexTitleLength, function (details) {
+	                _baseApp_function2['default'].isStrCut(details, 'content', _configApp_config2['default'].indexContentLength, function (details) {
+	                  self.setState({ details: details || [] });
+	                });
+	              });
+	            });
+	          });
+	        }
+	      },
+	      error: function error(xhr, status, err) {
+	        console.error(xhr, status, err.toString());
+	      }
+	    });
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.loadCommentsFromServer();
+	  },
+	  render: function render() {
+	    var details = this.state.details;
+	    return _react2['default'].createElement('div', null, _react2['default'].createElement('div', { className: 'headline' }, '文章', _react2['default'].createElement('span', { className: 'font-green' }, '推荐')), _react2['default'].createElement(_article2['default'], { details: details }));
+	  }
+	});
+
+	exports['default'] = Home;
+	module.exports = exports['default'];
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "home.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 201 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	    var time = __webpack_require__(202);
 	    exports.nav = function (topicList, cb) {
-	        var arr = new Array();
+	        var arr = [];
 	        topicList.forEach(function (v) {
-	            var children = new Array();
+	            var children = [];
 	            if (0 == v['pid']) {
 	                topicList.forEach(function (vv) {
 	                    if (vv['pid'] == v['id']) {
@@ -33663,11 +33731,10 @@
 	        }
 	    };
 	    exports.articleCut = function (details, num, cb) {
-	        //console.log(details);
 	        if (0 == details.length || !num) {
 	            cb([]);
 	        } else {
-	            var arr = new Array();
+	            var arr = [];
 	            for (var i = 0, length = details.length; i < num && i < length; i++) {
 	                arr.push(details[i]);
 	            }
@@ -33678,7 +33745,6 @@
 	        if (0 == details.length) {
 	            cb([]);
 	        } else {
-	            var time = __webpack_require__(255);
 	            details.forEach(function (item) {
 	                item.create_time = time.format('yyyy年mm月dd日', parseInt(item.create_time * 1000));
 	            });
@@ -33690,9 +33756,7 @@
 	            cb([]);
 	        } else {
 	            details.forEach(function (item) {
-	                //console.log(item[field]);
 	                if (item[field].length > num) {
-	                    //console.log(item[field].length);
 	                    item[field] = item[field].substr(0, num) + "...";
 	                }
 	            });
@@ -33700,20 +33764,12 @@
 	        }
 	    };
 	    exports.getDetailsByField = function (details, field, value, cb) {
-	        //console.log(field);
-	        //console.log(value);
-	        //console.log(field.length);
-	        //console.log(value.length);
 	        if (0 == details.length) {
 	            cb([]);
 	        } else if (field.length || value.length) {
-	            var arr = new Array();
+	            var arr = [];
 	            details.forEach(function (item) {
-	                //console.log(item[field]);
-	                //console.log('-----------'+value);
 	                if (item[field] == value) {
-	                    //console.log(item);
-	                    //console.log(item[field]);
 	                    arr.push(item);
 	                }
 	            });
@@ -33722,21 +33778,12 @@
 	            cb(details);
 	        }
 	    };
-	    exports.addClassActive = function (category_id) {
-	        $('#navbar-nav li').removeClass('active');
-	        var current_li = $('#navbar-nav li[data-nav="category' + category_id + '"]');
-	        current_li.addClass('active');
-	        var parent = current_li.parents("li.dropdown");
-	        if (parent.length) {
-	            parent.addClass('active');
-	        }
-	    };
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "App_function.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "app_function.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 255 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -33819,73 +33866,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "time.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 256 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	function _interopRequireDefault(obj) {
-	  return obj && obj.__esModule ? obj : { 'default': obj };
-	}
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var Home = _react2['default'].createClass({
-	  displayName: 'Home',
-
-	  render: function render() {
-	    return _react2['default'].createElement('div', null, _react2['default'].createElement('h3', null, 'This is home!'));
-	  }
-	});
-
-	exports['default'] = Home;
-	module.exports = exports['default'];
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "home.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ },
-/* 257 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	function _interopRequireDefault(obj) {
-	  return obj && obj.__esModule ? obj : { 'default': obj };
-	}
-
-	var _react = __webpack_require__(3);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var Category = _react2['default'].createClass({
-	  displayName: 'Category',
-
-	  render: function render() {
-	    return _react2['default'].createElement('div', null, _react2['default'].createElement('h3', null, 'This is category!'));
-	  }
-	});
-
-	exports['default'] = Category;
-	module.exports = exports['default'];
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "category.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ },
-/* 258 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -33904,17 +33885,357 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(159);
+
+	var Article = _react2['default'].createClass({
+	    displayName: 'Article',
+
+	    render: function render() {
+	        var details = this.props.details;
+	        details = details.map(function (item, index) {
+	            return _react2['default'].createElement('article', { key: "article-" + index }, _react2['default'].createElement('div', { className: 'title', title: item.title }, _react2['default'].createElement(_reactRouter.Link, { to: 'details', params: { articleId: item.id }, title: item.title }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-triangle-right icon-title' }), ' ', item.title)), _react2['default'].createElement('div', { className: 'row' }, _react2['default'].createElement('div', { className: 'col-md-3' }, _react2['default'].createElement('img', { className: 'img-thumbnail', src: "../vendor/images/" + item.img_file })), _react2['default'].createElement('div', { className: 'col-md-9' }, _react2['default'].createElement('div', { className: 'content' }, _react2['default'].createElement('p', null, item.content)))), _react2['default'].createElement('div', { className: 'row sub-title' }, _react2['default'].createElement('div', { className: 'col-md-3' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-time' }), ' ', item.create_time), _react2['default'].createElement('div', { className: 'col-md-2' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-folder-open' }), '  ', item.category), _react2['default'].createElement('div', { className: 'col-md-2' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-eye-open' }), ' ', item.hits), _react2['default'].createElement('div', { className: 'col-md-5' }, _react2['default'].createElement(_reactRouter.Link, { to: 'details', params: { articleId: item.id }, className: 'btn btn-success btn-sm pull-right btn-read-all', title: item.title }, '阅读全文>>'))));
+	        });
+	        return _react2['default'].createElement('div', null, _react2['default'].createElement('div', { className: 'article-list' }, details));
+	    }
+	});
+
+	exports['default'] = Article;
+	module.exports = exports['default'];
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "article.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) {
+	    return obj && obj.__esModule ? obj : { "default": obj };
+	}
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var ContainerLeft = _react2["default"].createClass({
+	    displayName: "ContainerLeft",
+
+	    render: function render() {
+	        return _react2["default"].createElement("div", null, _react2["default"].createElement("p", { className: "notice" }, _react2["default"].createElement("i", { className: "glyphicon glyphicon-bullhorn" }), " ", _react2["default"].createElement("span", null, "公告")), _react2["default"].createElement("div", { className: "notice-content" }, "本博客文章如无特别注明，均为原创，欢迎转载、传阅，共同交流~"), _react2["default"].createElement("p", { className: "blogger" }, _react2["default"].createElement("i", { className: "glyphicon glyphicon-user" }), " ", _react2["default"].createElement("span", null, "博主")), _react2["default"].createElement("div", { className: "blogger-info" }, _react2["default"].createElement("p", null, _react2["default"].createElement("span", null, "昵称：", _react2["default"].createElement("a", { href: "javascript:;", "data-go-route": "archive/home/init" }, "阿林十一"))), _react2["default"].createElement("p", null, _react2["default"].createElement("span", null, "家乡：", _react2["default"].createElement("a", { href: "javascript:;" }, "江西省-赣州市"))), _react2["default"].createElement("p", null, _react2["default"].createElement("span", null, "现居住地：", _react2["default"].createElement("a", { href: "javascript:;" }, "江西省-赣州市"))), _react2["default"].createElement("p", null, _react2["default"].createElement("span", null, "园龄：", _react2["default"].createElement("a", { href: "javascript:;" }, "8个月")))), _react2["default"].createElement("p", { className: "new-blog" }, _react2["default"].createElement("i", { className: "glyphicon glyphicon-list-alt" }), " ", _react2["default"].createElement("span", null, "最新文章")), _react2["default"].createElement("div", { className: "new-blog-details" }, _react2["default"].createElement("ul", null, _react2["default"].createElement("li", null, _react2["default"].createElement("a", { href: "javascript:;", title: "{{=item.title}}", "data-go-route-reload": "archive/detail/detail&detailId={{=item.id}}" }, "aaaaa")))), _react2["default"].createElement("p", { className: "reading-list" }, _react2["default"].createElement("i", { className: "glyphicon glyphicon-list" }), " ", _react2["default"].createElement("span", null, "阅读排行榜")), _react2["default"].createElement("div", { className: "reading-list-details" }, _react2["default"].createElement("ul", null, _react2["default"].createElement("li", null, _react2["default"].createElement("a", { href: "javascript:;", title: "{{=item.title}}", "data-go-route-reload": "archive/detail/detail&detailId={{=item.id}}" }, "bbbbbbb")))));
+	    }
+	});
+
+	exports["default"] = ContainerLeft;
+	module.exports = exports["default"];
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "container_left.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _jquery = __webpack_require__(198);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _baseApp_function = __webpack_require__(201);
+
+	var _baseApp_function2 = _interopRequireDefault(_baseApp_function);
+
+	var _configApp_config = __webpack_require__(199);
+
+	var _configApp_config2 = _interopRequireDefault(_configApp_config);
+
+	var _article = __webpack_require__(203);
+
+	var _article2 = _interopRequireDefault(_article);
+
+	var Category = _react2['default'].createClass({
+	  displayName: 'Category',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      categoryId: this.props.params.categoryId,
+	      article: []
+	    };
+	  },
+	  loadCommentsFromServer: function loadCommentsFromServer() {
+	    var self = this;
+	    _jquery2['default'].ajax({
+	      url: './mock/detail.json',
+	      dataType: 'json',
+	      success: function success(r) {
+	        if (200 == r.errCode) {
+	          _baseApp_function2['default'].getDetailsByField(r.data, 'category_id', self.state.categoryId, function (details) {
+	            _baseApp_function2['default'].articleCut(details, _configApp_config2['default'].indexShowNum, function (detailsCuted) {
+	              _baseApp_function2['default'].timeToStr(detailsCuted, function (detailsStrTime) {
+	                _baseApp_function2['default'].isStrCut(detailsStrTime, 'title', _configApp_config2['default'].indexTitleLength, function (details) {
+	                  _baseApp_function2['default'].isStrCut(details, 'content', _configApp_config2['default'].indexContentLength, function (details) {
+	                    self.setState({ article: details });
+	                  });
+	                });
+	              });
+	            });
+	          });
+	        }
+	      },
+	      error: function error(xhr, status, err) {
+	        console.error(xhr, status, err.toString());
+	      }
+	    });
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.loadCommentsFromServer();
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    this.setState({
+	      categoryId: nextProps.params.categoryId
+	    });
+	    this.loadCommentsFromServer();
+	  },
+	  render: function render() {
+	    var articles = this.state.article;
+	    var category = _configApp_config2['default'].emptyArticleMsg;
+
+	    articles.map(function (item, index) {
+	      category = item.category;
+	      return false;
+	    });
+	    return _react2['default'].createElement('div', null, _react2['default'].createElement('div', { className: 'headline' }, category, _react2['default'].createElement('span', { className: 'font-green' })), _react2['default'].createElement(_article2['default'], { details: articles }));
+	  }
+	});
+
+	exports['default'] = Category;
+	module.exports = exports['default'];
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "category.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) {
+	    return obj && obj.__esModule ? obj : { 'default': obj };
+	}
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _jquery = __webpack_require__(198);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _reactRouter = __webpack_require__(159);
+
+	var _baseApp_function = __webpack_require__(201);
+
+	var _baseApp_function2 = _interopRequireDefault(_baseApp_function);
+
+	var _configApp_config = __webpack_require__(199);
+
+	var _configApp_config2 = _interopRequireDefault(_configApp_config);
+
+	var _article = __webpack_require__(203);
+
+	var _article2 = _interopRequireDefault(_article);
+
+	var Article = _react2['default'].createClass({
+	    displayName: 'Article',
+
+	    changeNavClass: function changeNavClass(e) {
+	        var self = (0, _jquery2['default'])(e.target).parents("p.article-pre");
+	        var cid = self.data("category-id");
+
+	        (0, _jquery2['default'])('#navbar-nav li').removeClass('active');
+	        (0, _jquery2['default'])('#navbar-nav li[data-active="' + cid + '"]').addClass('active');
+	    },
+	    render: function render() {
+	        var _this = this;
+
+	        var threeArticle = this.props.article;
+	        var cur = undefined,
+	            pre = undefined,
+	            next = undefined;
+	        _jquery2['default'].each(threeArticle, function (item, value) {
+	            if (item == 'cur') {
+	                cur = _react2['default'].createElement('div', null, _react2['default'].createElement('div', { className: 'col-md-12 article-title' }, value.title), _react2['default'].createElement('div', { className: 'col-md-12 article-icon' }, _react2['default'].createElement('ul', null, _react2['default'].createElement('li', null, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-folder-open' }), ' ', value.category), _react2['default'].createElement('li', null, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-time' }), ' ', value.create_time), _react2['default'].createElement('li', null, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-eye-open' }), ' ', value.hits, '人阅读'))), _react2['default'].createElement('div', { className: 'col-md-12' }, _react2['default'].createElement('p', { className: 'article-content' }, value.content)), _react2['default'].createElement('div', { className: 'col-md-12 article-icon' }, _react2['default'].createElement('ul', null, _react2['default'].createElement('li', null, _react2['default'].createElement('a', { href: 'javascript:;' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-thumbs-up' }), ' 赞')), _react2['default'].createElement('li', null, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-comment' }), ' 0人评论'))));
+	            } else if (item == 'pre') {
+	                if (!value.id) {
+	                    pre = _react2['default'].createElement('p', { className: 'article-pre' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-chevron-up' }), ' 上一篇：无');
+	                } else {
+	                    pre = _react2['default'].createElement('p', { className: 'article-pre', 'data-category-id': value.category_id }, _react2['default'].createElement(_reactRouter.Link, {
+	                        to: 'details',
+	                        params: { articleId: value.id },
+	                        onClick: _this.changeNavClass,
+	                        title: value.title }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-chevron-up' }), ' 上一篇：', value.title));
+	                }
+	            } else {
+	                if (!value.id) {
+	                    next = _react2['default'].createElement('p', { className: 'article-pre' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-chevron-down' }), ' 下一篇：无');
+	                } else {
+	                    next = _react2['default'].createElement('p', { className: 'article-pre', 'data-category-id': value.category_id }, _react2['default'].createElement(_reactRouter.Link, {
+	                        to: 'details',
+	                        params: { articleId: value.id },
+	                        onClick: _this.changeNavClass,
+	                        title: value.title }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-chevron-down' }), ' 下一篇：', value.title));
+	                }
+	            }
+	        });
+	        return _react2['default'].createElement('div', { className: 'row' }, cur, _react2['default'].createElement('div', { className: 'col-md-12', id: 'pre-next' }, pre, next));
+	    }
+	});
+
 	var Details = _react2['default'].createClass({
 	    displayName: 'Details',
 
+	    getInitialState: function getInitialState() {
+	        return {
+	            articleId: this.props.params.articleId,
+	            threeArticle: []
+	        };
+	    },
+	    loadCommentsFromServer: function loadCommentsFromServer() {
+	        var self = this;
+	        _jquery2['default'].ajax({
+	            url: './mock/detail.json',
+	            dataType: 'json',
+	            success: function success(r) {
+	                if (200 == r.errCode) {
+	                    var details = r.data;
+	                    _baseApp_function2['default'].articleSort(details, 'id', 'ase', function (details) {
+	                        _baseApp_function2['default'].timeToStr(details, function (details) {
+	                            var details = details;
+	                            self.getArticleKey(details, self.state.articleId, function (key) {
+	                                self.getThreeArticle(details, key, function (threeArticle) {
+	                                    //console.log(threeArticle);
+	                                    self.setState({
+	                                        threeArticle: threeArticle[0]
+	                                    });
+	                                });
+	                            });
+	                        });
+	                    });
+	                }
+	            },
+	            error: function error(xhr, status, err) {
+	                console.error(xhr, status, err.toString());
+	            }
+	        });
+	    },
+	    //当组件在页面上渲染完成之后调用
+	    componentDidMount: function componentDidMount() {
+	        this.loadCommentsFromServer();
+	    },
+	    //在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用。
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        this.setState({
+	            articleId: nextProps.params.articleId
+	        });
+	        this.loadCommentsFromServer();
+	    },
+	    getThreeArticle: function getThreeArticle(details, key, cb) {
+	        var arr = [];
+	        var length = details.length;
+	        if (length == 0 || key === '') {
+	            cb([]);
+	        } else if (length == 1) {
+	            arr.push({ pre: {}, cur: details[0], next: {} });
+	        } else {
+	            if (key == 0) {
+	                arr.push({ pre: {}, cur: details[0], next: details[1] });
+	            } else if (key == length - 1) {
+	                arr.push({ pre: details[length - 2], cur: details[length - 1], next: {} });
+	            } else {
+	                arr.push({ pre: details[key - 1], cur: details[key], next: details[key + 1] });
+	            }
+	        }
+	        cb(arr);
+	    },
+	    getArticleKey: function getArticleKey(details, article_id, cb) {
+	        if (0 == details.length) {
+	            cb('');
+	        } else {
+	            details.forEach(function (item, k) {
+	                if (item['id'] == article_id) {
+	                    cb(k);
+	                }
+	            });
+	        }
+	    },
 	    render: function render() {
-	        return _react2['default'].createElement('div', null, _react2['default'].createElement('h1', null, 'This is details!'));
+	        return _react2['default'].createElement('div', null, _react2['default'].createElement(Article, { article: this.state.threeArticle }));
 	    }
 	});
+
 	exports['default'] = Details;
 	module.exports = exports['default'];
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "details.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) {
+	    return obj && obj.__esModule ? obj : { "default": obj };
+	}
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var footer = _react2["default"].createClass({
+	    displayName: "footer",
+
+	    render: function render() {
+	        return _react2["default"].createElement("footer", { className: "page-foot" }, _react2["default"].createElement("div", { className: "foot-line" }), _react2["default"].createElement("div", { className: "copyright" }, "©2016 ", _react2["default"].createElement("a", { target: "_blank", href: "https://github.com/2944927590" }, "alsy")));
+	    }
+	});
+
+	exports["default"] = footer;
+	module.exports = exports["default"];
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "footer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }
 /******/ ]);
