@@ -15,3 +15,5 @@ myblog-react
 > 2.[webpack](https://github.com/webpack/webpack)
 
 > 3.[react-router](https://github.com/reactjs/react-router)
+
+> 4.[PubSubJS](https://github.com/mroderick/PubSubJS)
