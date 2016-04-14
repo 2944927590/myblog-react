@@ -2,6 +2,7 @@ import React from 'react';
 import Router from 'react-router';
 import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
 import $ from 'jquery';
+import PubSub from 'pubsub-js';
 
 import config from './../_config/app_config';
 import Home from './home';
@@ -10,9 +11,27 @@ import Category from './category';
 import Details from './details';
 import Footer from './footer';
 import AppF from './../_base/app_function';
+import EventName from './../_base/app_event';
+
+let token = null;
 
 let Nav = React.createClass({
-    addActive(e){
+    componentDidMount: function () {
+        console.log("Nav -- componentDidMount");
+        token = PubSub.subscribe(EventName.navClass, this.changeActive);
+    },
+    changeActive: function(msg, data){
+        //console.log(data);
+        let self = $('#navbar-nav li[data-active="' + data.categoryId +'"]');
+        $('#navbar-nav li').removeClass('active');
+        self.addClass('active');
+        self.parents("li.dropdown").addClass('active');
+    },
+    componentWillUnmount: function () {
+        console.log("componentWillUnmount");
+        PubSub.unsubscribe( token );
+    },
+    addActive: function(e, data){
         var self = $(e.target),
             cid = self.parent().data('active');
         $('#navbar-nav li').removeClass('active');

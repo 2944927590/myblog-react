@@ -1,23 +1,28 @@
 import React from 'react';
 import $ from 'jquery';
 import { Link } from 'react-router';
+import PubSub from 'pubsub-js';
 
 import AppF from './../_base/app_function';
 import config from './../_config/app_config';
 import Articles from './article';
+import EventName from './../_base/app_event';
 
 let Article = React.createClass({
-    changeNavClass(e){
-        var self = $(e.target).parents("p.article-pre");
-        var cid = self.data("category-id");
-
-        $('#navbar-nav li').removeClass('active');
-        $('#navbar-nav li[data-active="' + cid +'"]').addClass('active');
-
+    changeNavClassPre: function(e){
+        console.log("Article -- changeNavClassPre");
+        let cid = React.findDOMNode(this.refs.articlePre).getAttribute("data-category-id");
+        PubSub.publish(EventName.navClass, {categoryId: cid});
+    },
+    changeNavClassNext: function(e){
+        console.log("Article -- changeNavClassPre");
+        let cid = React.findDOMNode(this.refs.articleNext).getAttribute("data-category-id");
+        PubSub.publish(EventName.navClass, {categoryId: cid});
     },
     render() {
         let threeArticle = this.props.article;
         let cur, pre, next;
+        //console.log(threeArticle);
         $.each(threeArticle, (item, value) => {
             if(item == 'cur'){
                 cur = (
@@ -60,11 +65,10 @@ let Article = React.createClass({
                     );
                 } else {
                     pre = (
-                        <p className="article-pre" data-category-id={value.category_id}>
+                        <p className="article-pre" data-category-id={value.category_id} onClick={this.changeNavClassPre} ref="articlePre">
                             <Link
                                 to="details"
                                 params={{articleId: value.id}}
-                                onClick={this.changeNavClass}
                                 title={value.title}>
                                 <i className="glyphicon glyphicon-chevron-up"></i>
                                 &nbsp;上一篇：{value.title}
@@ -81,11 +85,10 @@ let Article = React.createClass({
                     );
                 } else {
                     next = (
-                        <p className="article-pre" data-category-id={value.category_id}>
+                        <p className="article-pre" data-category-id={value.category_id} onClick={this.changeNavClassNext} ref="articleNext">
                             <Link
                                 to="details"
                                 params={{articleId: value.id}}
-                                onClick={this.changeNavClass}
                                 title={value.title}>
                                 <i className="glyphicon glyphicon-chevron-down"></i>
                                 &nbsp;下一篇：{value.title}
@@ -110,11 +113,11 @@ let Article = React.createClass({
 let Details = React.createClass({
     getInitialState() {
         return {
-            articleId: this.props.params.articleId,
             threeArticle: []
         };
     },
     loadCommentsFromServer() {
+        console.log("loadCommentsFromServer");
         let self = this;
         $.ajax({
             url: './mock/detail.json',
@@ -125,7 +128,7 @@ let Details = React.createClass({
                     AppF.articleSort(details, 'id', 'ase', (details) => {
                         AppF.timeToStr(details, (details) => {
                             var details = details;
-                            self.getArticleKey(details, self.state.articleId, (key) => {
+                            self.getArticleKey(details, self.props.params.articleId, (key) => {
                                 self.getThreeArticle(details, key, (threeArticle) => {
                                     //console.log(threeArticle);
                                     self.setState({
@@ -142,16 +145,26 @@ let Details = React.createClass({
             }
         });
     },
+    componentWillMount(){
+        console.log("Details -- componentWillMount");
+        this.loadCommentsFromServer();
+    },
     //当组件在页面上渲染完成之后调用
     componentDidMount() {
-        this.loadCommentsFromServer();
+        console.log("Details -- componentDidMount");
     },
     //在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用。
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            articleId: nextProps.params.articleId
-        });
+        console.log("Details -- componentWillReceiveProps");
         this.loadCommentsFromServer();
+    },
+    render() {
+        console.log(this.state.threeArticle);
+        return(
+            <div>
+                <Article article={this.state.threeArticle}/>
+            </div>
+        );
     },
     getThreeArticle(details, key, cb) {
         var arr = [];
@@ -181,13 +194,6 @@ let Details = React.createClass({
                 }
             });
         }
-    },
-    render() {
-        return(
-            <div>
-                <Article article={this.state.threeArticle}/>
-            </div>
-        );
     }
 });
 
