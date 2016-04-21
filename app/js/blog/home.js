@@ -40,6 +40,8 @@ let Home = React.createClass({
   },
   render() {
     let details = this.state.details;
+    console.log("Home -- render()");
+    console.log(details);
     return(
       <div>
         <div className="headline">文章<span className="font-green">推荐</span></div>

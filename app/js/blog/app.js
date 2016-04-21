@@ -12,6 +12,7 @@ import Details from './details';
 import Footer from './footer';
 import AppF from './../_base/app_function';
 import EventName from './../_base/app_event';
+import appCss from './../../css/main';
 
 let token = null;
 
@@ -130,6 +131,7 @@ let App = React.createClass({
         this.loadCommentsFromServer();
     },
     render() {
+        console.log("App -- render()");
         let nav = this.state.category;
         return (
             <div>

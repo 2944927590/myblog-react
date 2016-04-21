@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import Img from '../../../vendor/images/article.jpg';
+
 let Article = React.createClass({
     render() {
         let details = this.props.details;
@@ -16,7 +18,7 @@ let Article = React.createClass({
                     <div className="row">
                         <div className="col-md-3">
 
-                            <img className="img-thumbnail" src ={ "../vendor/images/" + item.img_file }/>
+                            <img className="img-thumbnail" src ={Img}/>
                         </div>
                         <div className="col-md-9">
                             <div className="content">

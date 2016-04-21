@@ -1,46 +1,4 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
-/******/ 			return installedModules[moduleId].exports;
-
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
-/******/ 		};
-
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-
-
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
-/******/ })
-/************************************************************************/
-/******/ ([
+webpackJsonp([0,1],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -155,38 +113,67 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _configApp_config = __webpack_require__(199);
+	var _pubsubJs = __webpack_require__(199);
+
+	var _pubsubJs2 = _interopRequireDefault(_pubsubJs);
+
+	var _configApp_config = __webpack_require__(200);
 
 	var _configApp_config2 = _interopRequireDefault(_configApp_config);
 
-	var _home = __webpack_require__(200);
+	var _home = __webpack_require__(201);
 
 	var _home2 = _interopRequireDefault(_home);
 
-	var _container_left = __webpack_require__(204);
+	var _container_left = __webpack_require__(206);
 
 	var _container_left2 = _interopRequireDefault(_container_left);
 
-	var _category = __webpack_require__(205);
+	var _category = __webpack_require__(207);
 
 	var _category2 = _interopRequireDefault(_category);
 
-	var _details = __webpack_require__(206);
+	var _details = __webpack_require__(208);
 
 	var _details2 = _interopRequireDefault(_details);
 
-	var _footer = __webpack_require__(207);
+	var _footer = __webpack_require__(210);
 
 	var _footer2 = _interopRequireDefault(_footer);
 
-	var _baseApp_function = __webpack_require__(201);
+	var _baseApp_function = __webpack_require__(202);
 
 	var _baseApp_function2 = _interopRequireDefault(_baseApp_function);
+
+	var _baseApp_event = __webpack_require__(209);
+
+	var _baseApp_event2 = _interopRequireDefault(_baseApp_event);
+
+	var _cssMain = __webpack_require__(215);
+
+	var _cssMain2 = _interopRequireDefault(_cssMain);
+
+	var token = null;
 
 	var Nav = _react2['default'].createClass({
 	    displayName: 'Nav',
 
-	    addActive: function addActive(e) {
+	    componentDidMount: function componentDidMount() {
+	        console.log("Nav -- componentDidMount");
+	        token = _pubsubJs2['default'].subscribe(_baseApp_event2['default'].navClass, this.changeActive);
+	    },
+	    changeActive: function changeActive(msg, data) {
+	        //console.log(data);
+	        var self = (0, _jquery2['default'])('#navbar-nav li[data-active="' + data.categoryId + '"]');
+	        (0, _jquery2['default'])('#navbar-nav li').removeClass('active');
+	        self.addClass('active');
+	        self.parents("li.dropdown").addClass('active');
+	    },
+	    componentWillUnmount: function componentWillUnmount() {
+	        console.log("componentWillUnmount");
+	        _pubsubJs2['default'].unsubscribe(token);
+	    },
+	    addActive: function addActive(e, data) {
 	        var self = (0, _jquery2['default'])(e.target),
 	            cid = self.parent().data('active');
 	        (0, _jquery2['default'])('#navbar-nav li').removeClass('active');
@@ -243,6 +230,7 @@
 	        this.loadCommentsFromServer();
 	    },
 	    render: function render() {
+	        console.log("App -- render()");
 	        var nav = this.state.category;
 	        return _react2['default'].createElement('div', null, _react2['default'].createElement(Nav, { nav: nav }), _react2['default'].createElement('div', { className: 'container' }, _react2['default'].createElement('div', { className: 'row' }, _react2['default'].createElement('div', { className: 'col-md-3' }, _react2['default'].createElement(_container_left2['default'], null)), _react2['default'].createElement('div', { className: 'col-md-9' }, _react2['default'].createElement('div', { id: 'container-right' }, _react2['default'].createElement(_reactRouter.RouteHandler, null))))), _react2['default'].createElement(_footer2['default'], null));
 	    }
@@ -33585,6 +33573,257 @@
 /* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
+	Copyright (c) 2010,2011,2012,2013,2014 Morgan Roderick http://roderick.dk
+	License: MIT - http://mrgnrdrck.mit-license.org
+
+	https://github.com/mroderick/PubSubJS
+	*/
+	(function (root, factory){
+		'use strict';
+
+	    if (true){
+	        // AMD. Register as an anonymous module.
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+	    } else if (typeof exports === 'object'){
+	        // CommonJS
+	        factory(exports);
+
+	    }
+
+	    // Browser globals
+	    var PubSub = {};
+	    root.PubSub = PubSub;
+	    factory(PubSub);
+	    
+	}(( typeof window === 'object' && window ) || this, function (PubSub){
+		'use strict';
+
+		var messages = {},
+			lastUid = -1;
+
+		function hasKeys(obj){
+			var key;
+
+			for (key in obj){
+				if ( obj.hasOwnProperty(key) ){
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/**
+		 *	Returns a function that throws the passed exception, for use as argument for setTimeout
+		 *	@param { Object } ex An Error object
+		 */
+		function throwException( ex ){
+			return function reThrowException(){
+				throw ex;
+			};
+		}
+
+		function callSubscriberWithDelayedExceptions( subscriber, message, data ){
+			try {
+				subscriber( message, data );
+			} catch( ex ){
+				setTimeout( throwException( ex ), 0);
+			}
+		}
+
+		function callSubscriberWithImmediateExceptions( subscriber, message, data ){
+			subscriber( message, data );
+		}
+
+		function deliverMessage( originalMessage, matchedMessage, data, immediateExceptions ){
+			var subscribers = messages[matchedMessage],
+				callSubscriber = immediateExceptions ? callSubscriberWithImmediateExceptions : callSubscriberWithDelayedExceptions,
+				s;
+
+			if ( !messages.hasOwnProperty( matchedMessage ) ) {
+				return;
+			}
+
+			for (s in subscribers){
+				if ( subscribers.hasOwnProperty(s)){
+					callSubscriber( subscribers[s], originalMessage, data );
+				}
+			}
+		}
+
+		function createDeliveryFunction( message, data, immediateExceptions ){
+			return function deliverNamespaced(){
+				var topic = String( message ),
+					position = topic.lastIndexOf( '.' );
+
+				// deliver the message as it is now
+				deliverMessage(message, message, data, immediateExceptions);
+
+				// trim the hierarchy and deliver message to each level
+				while( position !== -1 ){
+					topic = topic.substr( 0, position );
+					position = topic.lastIndexOf('.');
+					deliverMessage( message, topic, data, immediateExceptions );
+				}
+			};
+		}
+
+		function messageHasSubscribers( message ){
+			var topic = String( message ),
+				found = Boolean(messages.hasOwnProperty( topic ) && hasKeys(messages[topic])),
+				position = topic.lastIndexOf( '.' );
+
+			while ( !found && position !== -1 ){
+				topic = topic.substr( 0, position );
+				position = topic.lastIndexOf( '.' );
+				found = Boolean(messages.hasOwnProperty( topic ) && hasKeys(messages[topic]));
+			}
+
+			return found;
+		}
+
+		function publish( message, data, sync, immediateExceptions ){
+			var deliver = createDeliveryFunction( message, data, immediateExceptions ),
+				hasSubscribers = messageHasSubscribers( message );
+
+			if ( !hasSubscribers ){
+				return false;
+			}
+
+			if ( sync === true ){
+				deliver();
+			} else {
+				setTimeout( deliver, 0 );
+			}
+			return true;
+		}
+
+		/**
+		 *	PubSub.publish( message[, data] ) -> Boolean
+		 *	- message (String): The message to publish
+		 *	- data: The data to pass to subscribers
+		 *	Publishes the the message, passing the data to it's subscribers
+		**/
+		PubSub.publish = function( message, data ){
+			return publish( message, data, false, PubSub.immediateExceptions );
+		};
+
+		/**
+		 *	PubSub.publishSync( message[, data] ) -> Boolean
+		 *	- message (String): The message to publish
+		 *	- data: The data to pass to subscribers
+		 *	Publishes the the message synchronously, passing the data to it's subscribers
+		**/
+		PubSub.publishSync = function( message, data ){
+			return publish( message, data, true, PubSub.immediateExceptions );
+		};
+
+		/**
+		 *	PubSub.subscribe( message, func ) -> String
+		 *	- message (String): The message to subscribe to
+		 *	- func (Function): The function to call when a new message is published
+		 *	Subscribes the passed function to the passed message. Every returned token is unique and should be stored if
+		 *	you need to unsubscribe
+		**/
+		PubSub.subscribe = function( message, func ){
+			if ( typeof func !== 'function'){
+				return false;
+			}
+
+			// message is not registered yet
+			if ( !messages.hasOwnProperty( message ) ){
+				messages[message] = {};
+			}
+
+			// forcing token as String, to allow for future expansions without breaking usage
+			// and allow for easy use as key names for the 'messages' object
+			var token = 'uid_' + String(++lastUid);
+			messages[message][token] = func;
+
+			// return token for unsubscribing
+			return token;
+		};
+
+		/* Public: Clears all subscriptions
+		 */
+		PubSub.clearAllSubscriptions = function clearAllSubscriptions(){
+			messages = {};
+		};
+
+		/*Public: Clear subscriptions by the topic
+		*/
+		PubSub.clearSubscriptions = function clearSubscriptions(topic){
+			var m; 
+			for (m in messages){
+				if (messages.hasOwnProperty(m) && m.indexOf(topic) === 0){
+					delete messages[m];
+				}
+			}
+		};
+
+		/* Public: removes subscriptions.
+		 * When passed a token, removes a specific subscription.
+		 * When passed a function, removes all subscriptions for that function
+		 * When passed a topic, removes all subscriptions for that topic (hierarchy)
+		 *
+		 * value - A token, function or topic to unsubscribe.
+		 *
+		 * Examples
+		 *
+		 *		// Example 1 - unsubscribing with a token
+		 *		var token = PubSub.subscribe('mytopic', myFunc);
+		 *		PubSub.unsubscribe(token);
+		 *
+		 *		// Example 2 - unsubscribing with a function
+		 *		PubSub.unsubscribe(myFunc);
+		 *
+		 *		// Example 3 - unsubscribing a topic
+		 *		PubSub.unsubscribe('mytopic');
+		 */
+		PubSub.unsubscribe = function(value){
+			var isTopic    = typeof value === 'string' && messages.hasOwnProperty(value),
+				isToken    = !isTopic && typeof value === 'string',
+				isFunction = typeof value === 'function',
+				result = false,
+				m, message, t;
+
+			if (isTopic){
+				delete messages[value];
+				return;
+			}
+
+			for ( m in messages ){
+				if ( messages.hasOwnProperty( m ) ){
+					message = messages[m];
+
+					if ( isToken && message[value] ){
+						delete message[value];
+						result = value;
+						// tokens are unique, so we can just stop here
+						break;
+					}
+
+					if (isFunction) {
+						for ( t in message ){
+							if (message.hasOwnProperty(t) && message[t] === value){
+								delete message[t];
+								result = true;
+							}
+						}
+					}
+				}
+			}
+
+			return result;
+		};
+	}));
+
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
 	'use strict';
@@ -33607,7 +33846,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "app_config.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 200 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -33630,15 +33869,15 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _baseApp_function = __webpack_require__(201);
+	var _baseApp_function = __webpack_require__(202);
 
 	var _baseApp_function2 = _interopRequireDefault(_baseApp_function);
 
-	var _configApp_config = __webpack_require__(199);
+	var _configApp_config = __webpack_require__(200);
 
 	var _configApp_config2 = _interopRequireDefault(_configApp_config);
 
-	var _article = __webpack_require__(203);
+	var _article = __webpack_require__(204);
 
 	var _article2 = _interopRequireDefault(_article);
 
@@ -33679,6 +33918,8 @@
 	  },
 	  render: function render() {
 	    var details = this.state.details;
+	    console.log("Home -- render()");
+	    console.log(details);
 	    return _react2['default'].createElement('div', null, _react2['default'].createElement('div', { className: 'headline' }, '文章', _react2['default'].createElement('span', { className: 'font-green' }, '推荐')), _react2['default'].createElement(_article2['default'], { details: details }));
 	  }
 	});
@@ -33689,7 +33930,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "home.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 201 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -33697,7 +33938,7 @@
 	'use strict';
 
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	    var time = __webpack_require__(202);
+	    var time = __webpack_require__(203);
 	    exports.nav = function (topicList, cb) {
 	        var arr = [];
 	        topicList.forEach(function (v) {
@@ -33783,7 +34024,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "app_function.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 202 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -33866,7 +34107,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "time.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 203 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -33887,13 +34128,17 @@
 
 	var _reactRouter = __webpack_require__(159);
 
+	var _vendorImagesArticleJpg = __webpack_require__(205);
+
+	var _vendorImagesArticleJpg2 = _interopRequireDefault(_vendorImagesArticleJpg);
+
 	var Article = _react2['default'].createClass({
 	    displayName: 'Article',
 
 	    render: function render() {
 	        var details = this.props.details;
 	        details = details.map(function (item, index) {
-	            return _react2['default'].createElement('article', { key: "article-" + index }, _react2['default'].createElement('div', { className: 'title', title: item.title }, _react2['default'].createElement(_reactRouter.Link, { to: 'details', params: { articleId: item.id }, title: item.title }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-triangle-right icon-title' }), ' ', item.title)), _react2['default'].createElement('div', { className: 'row' }, _react2['default'].createElement('div', { className: 'col-md-3' }, _react2['default'].createElement('img', { className: 'img-thumbnail', src: "../vendor/images/" + item.img_file })), _react2['default'].createElement('div', { className: 'col-md-9' }, _react2['default'].createElement('div', { className: 'content' }, _react2['default'].createElement('p', null, item.content)))), _react2['default'].createElement('div', { className: 'row sub-title' }, _react2['default'].createElement('div', { className: 'col-md-3' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-time' }), ' ', item.create_time), _react2['default'].createElement('div', { className: 'col-md-2' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-folder-open' }), '  ', item.category), _react2['default'].createElement('div', { className: 'col-md-2' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-eye-open' }), ' ', item.hits), _react2['default'].createElement('div', { className: 'col-md-5' }, _react2['default'].createElement(_reactRouter.Link, { to: 'details', params: { articleId: item.id }, className: 'btn btn-success btn-sm pull-right btn-read-all', title: item.title }, '阅读全文>>'))));
+	            return _react2['default'].createElement('article', { key: "article-" + index }, _react2['default'].createElement('div', { className: 'title', title: item.title }, _react2['default'].createElement(_reactRouter.Link, { to: 'details', params: { articleId: item.id }, title: item.title }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-triangle-right icon-title' }), ' ', item.title)), _react2['default'].createElement('div', { className: 'row' }, _react2['default'].createElement('div', { className: 'col-md-3' }, _react2['default'].createElement('img', { className: 'img-thumbnail', src: _vendorImagesArticleJpg2['default'] })), _react2['default'].createElement('div', { className: 'col-md-9' }, _react2['default'].createElement('div', { className: 'content' }, _react2['default'].createElement('p', null, item.content)))), _react2['default'].createElement('div', { className: 'row sub-title' }, _react2['default'].createElement('div', { className: 'col-md-3' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-time' }), ' ', item.create_time), _react2['default'].createElement('div', { className: 'col-md-2' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-folder-open' }), '  ', item.category), _react2['default'].createElement('div', { className: 'col-md-2' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-eye-open' }), ' ', item.hits), _react2['default'].createElement('div', { className: 'col-md-5' }, _react2['default'].createElement(_reactRouter.Link, { to: 'details', params: { articleId: item.id }, className: 'btn btn-success btn-sm pull-right btn-read-all', title: item.title }, '阅读全文>>'))));
 	        });
 	        return _react2['default'].createElement('div', null, _react2['default'].createElement('div', { className: 'article-list' }, details));
 	    }
@@ -33905,7 +34150,13 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "article.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 204 */
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "e19e170b5df74cf7e5c3f625070f1e60.jpg";
+
+/***/ },
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -33938,7 +34189,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "container_left.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 205 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -33961,15 +34212,15 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _baseApp_function = __webpack_require__(201);
+	var _baseApp_function = __webpack_require__(202);
 
 	var _baseApp_function2 = _interopRequireDefault(_baseApp_function);
 
-	var _configApp_config = __webpack_require__(199);
+	var _configApp_config = __webpack_require__(200);
 
 	var _configApp_config2 = _interopRequireDefault(_configApp_config);
 
-	var _article = __webpack_require__(203);
+	var _article = __webpack_require__(204);
 
 	var _article2 = _interopRequireDefault(_article);
 
@@ -34034,7 +34285,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "category.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 206 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -34059,27 +34310,38 @@
 
 	var _reactRouter = __webpack_require__(159);
 
-	var _baseApp_function = __webpack_require__(201);
+	var _pubsubJs = __webpack_require__(199);
+
+	var _pubsubJs2 = _interopRequireDefault(_pubsubJs);
+
+	var _baseApp_function = __webpack_require__(202);
 
 	var _baseApp_function2 = _interopRequireDefault(_baseApp_function);
 
-	var _configApp_config = __webpack_require__(199);
+	var _configApp_config = __webpack_require__(200);
 
 	var _configApp_config2 = _interopRequireDefault(_configApp_config);
 
-	var _article = __webpack_require__(203);
+	var _article = __webpack_require__(204);
 
 	var _article2 = _interopRequireDefault(_article);
+
+	var _baseApp_event = __webpack_require__(209);
+
+	var _baseApp_event2 = _interopRequireDefault(_baseApp_event);
 
 	var Article = _react2['default'].createClass({
 	    displayName: 'Article',
 
-	    changeNavClass: function changeNavClass(e) {
-	        var self = (0, _jquery2['default'])(e.target).parents("p.article-pre");
-	        var cid = self.data("category-id");
-
-	        (0, _jquery2['default'])('#navbar-nav li').removeClass('active');
-	        (0, _jquery2['default'])('#navbar-nav li[data-active="' + cid + '"]').addClass('active');
+	    changeNavClassPre: function changeNavClassPre(e) {
+	        console.log("Article -- changeNavClassPre");
+	        var cid = _react2['default'].findDOMNode(this.refs.articlePre).getAttribute("data-category-id");
+	        _pubsubJs2['default'].publish(_baseApp_event2['default'].navClass, { categoryId: cid });
+	    },
+	    changeNavClassNext: function changeNavClassNext(e) {
+	        console.log("Article -- changeNavClassPre");
+	        var cid = _react2['default'].findDOMNode(this.refs.articleNext).getAttribute("data-category-id");
+	        _pubsubJs2['default'].publish(_baseApp_event2['default'].navClass, { categoryId: cid });
 	    },
 	    render: function render() {
 	        var _this = this;
@@ -34088,6 +34350,7 @@
 	        var cur = undefined,
 	            pre = undefined,
 	            next = undefined;
+	        //console.log(threeArticle);
 	        _jquery2['default'].each(threeArticle, function (item, value) {
 	            if (item == 'cur') {
 	                cur = _react2['default'].createElement('div', null, _react2['default'].createElement('div', { className: 'col-md-12 article-title' }, value.title), _react2['default'].createElement('div', { className: 'col-md-12 article-icon' }, _react2['default'].createElement('ul', null, _react2['default'].createElement('li', null, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-folder-open' }), ' ', value.category), _react2['default'].createElement('li', null, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-time' }), ' ', value.create_time), _react2['default'].createElement('li', null, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-eye-open' }), ' ', value.hits, '人阅读'))), _react2['default'].createElement('div', { className: 'col-md-12' }, _react2['default'].createElement('p', { className: 'article-content' }, value.content)), _react2['default'].createElement('div', { className: 'col-md-12 article-icon' }, _react2['default'].createElement('ul', null, _react2['default'].createElement('li', null, _react2['default'].createElement('a', { href: 'javascript:;' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-thumbs-up' }), ' 赞')), _react2['default'].createElement('li', null, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-comment' }), ' 0人评论'))));
@@ -34095,20 +34358,18 @@
 	                if (!value.id) {
 	                    pre = _react2['default'].createElement('p', { className: 'article-pre' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-chevron-up' }), ' 上一篇：无');
 	                } else {
-	                    pre = _react2['default'].createElement('p', { className: 'article-pre', 'data-category-id': value.category_id }, _react2['default'].createElement(_reactRouter.Link, {
+	                    pre = _react2['default'].createElement('p', { className: 'article-pre', 'data-category-id': value.category_id, onClick: _this.changeNavClassPre, ref: 'articlePre' }, _react2['default'].createElement(_reactRouter.Link, {
 	                        to: 'details',
 	                        params: { articleId: value.id },
-	                        onClick: _this.changeNavClass,
 	                        title: value.title }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-chevron-up' }), ' 上一篇：', value.title));
 	                }
 	            } else {
 	                if (!value.id) {
 	                    next = _react2['default'].createElement('p', { className: 'article-pre' }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-chevron-down' }), ' 下一篇：无');
 	                } else {
-	                    next = _react2['default'].createElement('p', { className: 'article-pre', 'data-category-id': value.category_id }, _react2['default'].createElement(_reactRouter.Link, {
+	                    next = _react2['default'].createElement('p', { className: 'article-pre', 'data-category-id': value.category_id, onClick: _this.changeNavClassNext, ref: 'articleNext' }, _react2['default'].createElement(_reactRouter.Link, {
 	                        to: 'details',
 	                        params: { articleId: value.id },
-	                        onClick: _this.changeNavClass,
 	                        title: value.title }, _react2['default'].createElement('i', { className: 'glyphicon glyphicon-chevron-down' }), ' 下一篇：', value.title));
 	                }
 	            }
@@ -34122,11 +34383,11 @@
 
 	    getInitialState: function getInitialState() {
 	        return {
-	            articleId: this.props.params.articleId,
 	            threeArticle: []
 	        };
 	    },
 	    loadCommentsFromServer: function loadCommentsFromServer() {
+	        console.log("loadCommentsFromServer");
 	        var self = this;
 	        _jquery2['default'].ajax({
 	            url: './mock/detail.json',
@@ -34137,7 +34398,7 @@
 	                    _baseApp_function2['default'].articleSort(details, 'id', 'ase', function (details) {
 	                        _baseApp_function2['default'].timeToStr(details, function (details) {
 	                            var details = details;
-	                            self.getArticleKey(details, self.state.articleId, function (key) {
+	                            self.getArticleKey(details, self.props.params.articleId, function (key) {
 	                                self.getThreeArticle(details, key, function (threeArticle) {
 	                                    //console.log(threeArticle);
 	                                    self.setState({
@@ -34154,16 +34415,22 @@
 	            }
 	        });
 	    },
+	    componentWillMount: function componentWillMount() {
+	        console.log("Details -- componentWillMount");
+	        this.loadCommentsFromServer();
+	    },
 	    //当组件在页面上渲染完成之后调用
 	    componentDidMount: function componentDidMount() {
-	        this.loadCommentsFromServer();
+	        console.log("Details -- componentDidMount");
 	    },
 	    //在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用。
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	        this.setState({
-	            articleId: nextProps.params.articleId
-	        });
+	        console.log("Details -- componentWillReceiveProps");
 	        this.loadCommentsFromServer();
+	    },
+	    render: function render() {
+	        console.log(this.state.threeArticle);
+	        return _react2['default'].createElement('div', null, _react2['default'].createElement(Article, { article: this.state.threeArticle }));
 	    },
 	    getThreeArticle: function getThreeArticle(details, key, cb) {
 	        var arr = [];
@@ -34193,9 +34460,6 @@
 	                }
 	            });
 	        }
-	    },
-	    render: function render() {
-	        return _react2['default'].createElement('div', null, _react2['default'].createElement(Article, { article: this.state.threeArticle }));
 	    }
 	});
 
@@ -34205,7 +34469,23 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "details.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 207 */
+/* 209 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	    module.exports = {
+	        'navClass': 'changeNavClass'
+	    };
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "app_event.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -34237,5 +34517,348 @@
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("G:\\reactWebpack\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "footer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
+/***/ },
+/* 211 */,
+/* 212 */,
+/* 213 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0,
+		styleElementsInsertedAtTop = [];
+
+	module.exports = function(list, options) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+		// By default, add <style> tags to the bottom of <head>.
+		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+
+	function insertStyleElement(options, styleElement) {
+		var head = getHeadElement();
+		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+		if (options.insertAt === "top") {
+			if(!lastStyleElementInsertedAtTop) {
+				head.insertBefore(styleElement, head.firstChild);
+			} else if(lastStyleElementInsertedAtTop.nextSibling) {
+				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+			} else {
+				head.appendChild(styleElement);
+			}
+			styleElementsInsertedAtTop.push(styleElement);
+		} else if (options.insertAt === "bottom") {
+			head.appendChild(styleElement);
+		} else {
+			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		}
+	}
+
+	function removeStyleElement(styleElement) {
+		styleElement.parentNode.removeChild(styleElement);
+		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+		if(idx >= 0) {
+			styleElementsInsertedAtTop.splice(idx, 1);
+		}
+	}
+
+	function createStyleElement(options) {
+		var styleElement = document.createElement("style");
+		styleElement.type = "text/css";
+		insertStyleElement(options, styleElement);
+		return styleElement;
+	}
+
+	function createLinkElement(options) {
+		var linkElement = document.createElement("link");
+		linkElement.rel = "stylesheet";
+		insertStyleElement(options, linkElement);
+		return linkElement;
+	}
+
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement(options));
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement(options);
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement(options);
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+			};
+		}
+
+		update(obj);
+
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+
+	var replaceText = (function () {
+		var textStore = [];
+
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var sourceMap = obj.sourceMap;
+
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+
+		var blob = new Blob([css], { type: "text/css" });
+
+		var oldSrc = linkElement.href;
+
+		linkElement.href = URL.createObjectURL(blob);
+
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
+
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(216);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(214)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./main.less", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./main.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(213)();
+	exports.push([module.id, "body {\n  font-family: \"Helvetica Neue\", Helvetica, \"Hiragino Sans GB\", \"STHeitiSC-Light\", \"Microsoft YaHei\", \"微软雅黑\", Arial, sans-serif;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%;\n}\n/*------nav-----------------*/\n.search-button {\n  margin-left: -4px;\n  border-radius: 0;\n}\n.search-input {\n  border-radius: 0;\n  border-right: none;\n}\n.dropdown-menu > .active > a,\n.dropdown-menu > .active > a:hover,\n.dropdown-menu > .active > a:focus {\n  background-color: #8E8E8E;\n}\n/*-----------container-left-------------*/\np.notice,\np.blogger,\np.new-blog,\np.reading-list {\n  padding: 20px 0 6px;\n  margin: 0;\n  border-bottom: 1px #e5e5e5 solid;\n  font-size: 16px;\n}\np.notice i p.new-blog i {\n  font-size: 20px;\n  vertical-align: text-bottom;\n}\n.notice-content {\n  text-indent: 2em;\n}\np.blogger i {\n  font-size: 16px;\n  vertical-align: text-bottom;\n}\n.blogger-info,\n.new-blog-details,\n.notice-content,\n.reading-list-details {\n  padding: 10px 0;\n}\n.blogger-info a {\n  color: #333;\n  text-decoration: none;\n}\n.blogger-info > p > span > a:hover {\n  color: #ff4b0c;\n}\n.new-blog-details ul,\n.reading-list-details ul {\n  padding: 0;\n  margin: 0;\n}\n.new-blog-details ul li,\n.reading-list-details ul li {\n  padding: 4px 0;\n  list-style: none;\n}\n.new-blog-details ul li:first-child,\n.reading-list-details ul li:first-child {\n  padding-top: 0;\n}\n.new-blog-details ul li:last-child,\n.reading-list-details ul li:last-child {\n  padding-bottom: 0;\n}\n.new-blog-details ul li a,\n.reading-list-details ul li a {\n  color: #333;\n  text-decoration: none;\n}\n.new-blog-details ul li a:hover,\n.reading-list-details ul li a:hover {\n  color: #ff4b0c;\n}\n/*--------home-------------*/\n.headline {\n  font-size: 18px;\n  padding: 10px 0;\n  border-bottom: 1px #e5e5e5 solid;\n}\n.font-green {\n  font-size: 20px;\n}\narticle {\n  padding: 10px 0;\n  border-bottom: 1px #e5e5e5 solid;\n}\narticle:last-child {\n  border-bottom: none;\n}\narticle .title {\n  padding: 10px 0;\n  font-size: 16px;\n}\narticle .title a {\n  text-decoration: none;\n  color: #333;\n}\narticle .title a:hover {\n  color: #ff4b0c;\n}\narticle .title a:hover i {\n  color: #ff4b0c;\n}\narticle .title .icon-title {\n  font-size: 12px;\n  color: #ADB5A6;\n}\narticle img.img-thumbnail {\n  width: 220px;\n  padding: 0;\n  border-radius: 0;\n  overflow: hidden;\n}\narticle .content p {\n  height: 100px;\n  overflow: hidden;\n}\narticle .sub-title {\n  padding: 10px 0;\n  vertical-align: bottom;\n}\narticle .sub-title .btn-read-all {\n  border-radius: 0;\n  background-color: #ADB5A6;\n  border-color: #ADB5A6;\n}\narticle .sub-title .btn-read-all:hover {\n  background-color: #74796F;\n  border-color: #74796F;\n}\n/*-------details-----------*/\n.article-title {\n  font-size: 16px;\n}\n.article-icon {\n  border-bottom: 1px #e5e5e5 solid;\n}\n.article-icon ul {\n  float: right;\n  padding: 2px 0 4px;\n  margin: 0;\n}\n.article-icon ul li {\n  list-style: none;\n  display: inline-block;\n  margin-left: 20px;\n}\n.article-icon ul li a,\n.article-pre a,\n.article-next a {\n  text-decoration: none;\n  color: #333;\n}\n.article-icon ul li a:hover,\n.article-pre a:hover,\n.article-next a:hover {\n  color: #ff4b0c;\n}\n.article-icon ul li a.praise {\n  color: #ff4b0c;\n}\n.article-icon ul li a.praise:hover {\n  color: #333;\n}\n.article-icon ul:after {\n  display: block;\n  clear: both;\n  content: \"\";\n}\n.article-content {\n  padding: 10px 0 20px;\n  text-indent: 2em;\n}\np.article-pre,\np.article-next {\n  padding: 4px 0;\n  margin: 0;\n}\n/*-----footer-------------*/\nfooter {\n  margin-top: 20px;\n  padding-bottom: 10px;\n}\n.foot-line {\n  height: 1px;\n  border-top: 1px solid #e5e5e5;\n  margin-bottom: 20px;\n}\n.copyright {\n  text-align: center;\n}\n", ""]);
+
 /***/ }
-/******/ ]);
+]);
